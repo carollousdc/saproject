@@ -51,6 +51,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 */
 $route['sitemap\.xml'] = 'sitemap';
 $route['post/(:any)'] = 'blog/detail/$1';
-$route['default_controller'] = 'login';
+$route['default_controller'] = 'home';
 $route['404_override'] = 'error404';
 $route['translate_uri_dashes'] = FALSE;
