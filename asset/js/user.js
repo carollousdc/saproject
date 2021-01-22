@@ -1,6 +1,3 @@
-var link = "user";
-var masterlink = "mastermenu";
-
 $(function () {
 	$("#tbl_data").on("click", ".btn_hapus", function () {
 		var id = $(this).attr("data-id");
@@ -80,44 +77,34 @@ $(function () {
 	});
 });
 
-$(function () {
-	var loc = window.location.pathname;
-	$("#nav")
-		.find("#" + link)
-		.each(function () {
-			$(this).addClass("nav-link active", $(this).attr("href") == loc);
-		});
-	$("#nav")
-		.find("#" + masterlink)
-		.each(function () {
-			$(this).addClass("nav-link active", $(this).attr("href") == loc);
-		});
-	$("#nav")
-		.find("#" + masterlink + "1")
-		.each(function () {
-			$(this).addClass(
-				"nav-item has-treeview menu-open",
-				$(this).attr("href") == loc
-			);
-		});
-});
-
 var table;
 $(function () {
 	$(document).ready(function () {
+		var link = $(location).attr("pathname");
 		//datatables
 		table = $("#tbl_data").DataTable({
 			responsive: true,
 			processing: true,
 			serverSide: true,
+			autoWidth: false,
+			sScrollY: "300",
+			sScrollX: "100%",
+			bSort: true,
+			iDisplayLength: 25,
+			bLengthChange: false,
 			order: [],
 			ajax: {
-				url: "user/get_data_user",
+				url: link + "/get_data",
 				type: "POST",
 			},
 			columnDefs: [
 				{
-					targets: [0],
+					targets: [0, 3],
+					orderable: false,
+				},
+				{
+					targets: -1,
+					width: "200",
 					orderable: false,
 				},
 			],

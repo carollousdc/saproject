@@ -10,24 +10,26 @@ class Navigation_sql extends CI_Model
         return $this->db->insert($this->tabel, $data);
     }
 
-    public function gets()
+    // ambil semua data
+    public function gets($where = "", $api = 0)
     {
-        $this->db->order_by('urutan', 'ASC');
-        $query = $this->db->get($this->tabel);
-        return $query->result();
+        if (empty($where)) $where = array("m.status" => 0);
+        $query = $this->db->get_where($this->tabel . " m", $where);
+        if (empty($api))
+            return $query->result();
+        else return $query;
+    }
+    // ambil satu data
+    public function get($where = "")
+    {
+        if (empty($where)) $where = array("status" => 0);
+        return $this->db->get_where($this->tabel . " m", $where)->row();
     }
 
     public function getsItem()
     {
         $this->db->select("name");
         $this->db->group_by("name");
-        $query = $this->db->get($this->tabel);
-        return $query->result();
-    }
-
-    public function get($id)
-    {
-        $this->db->where('id', $id);
         $query = $this->db->get($this->tabel);
         return $query->result();
     }
@@ -57,18 +59,27 @@ class Navigation_sql extends CI_Model
         $this->db->update($this->tabel, $data);
     }
 
-    public function option($nama, $selected, $must = "", $disabled = "")
+    public function option($nama, $selected, $where = "", $must = "", $data = [], $disabled = "")
     {
-        $isi = '<select id="' . $nama . '" name="' . $nama . '" class="form-control" value="' . $selected . '" ' . $disabled . '>';
+        $datlist = $data;
+        $isi = '<select id="' . $nama . '" name="' . $nama . '" class="form-control select2bs4" value="' . $selected . '" ' . $disabled . '>';
         $selectedFlag = "";
         if ($selected == "") $selectedFlag = "selected";
         if (empty($must))
             $isi .= '<option ' . $selectedFlag . ' value="" >Silahkan Pilih</option>';
-
-        foreach ($this->gets() as $key => $value) {
+        $getArray = $this->gets($where);
+        if (!empty($datlist)) $getArray = $datlist;
+        $no = 0;
+        foreach ($getArray as $key => $value) {
             $selectedFlag = "";
-            if ($selected == $value->id) $selectedFlag = "selected";
-            $isi .= '<option value="' . $value->id . '" ' . $selectedFlag . '>' . $value->name . '</option>';
+            if (empty($datlist)) {
+                if ($selected == $value->id) $selectedFlag = "selected";
+                $isi .= '<option value="' . $value->id . '" ' . $selectedFlag . '>' . $value->name . '</option>';
+            } else {
+                if ($selected == $value) $selectedFlag = "selected";
+                $isi .= '<option value="' . $no . '" ' . $selectedFlag . '>' . $value . '</option>';
+            }
+            $no++;
         }
         $isi .= '</select>';
         return $isi;
@@ -82,7 +93,9 @@ class Navigation_sql extends CI_Model
     public function getsTipe($tipe = 0)
     {
         $this->db->where('tipe', $tipe);
-        $this->db->order_by('urutan', 'ASC');
+        if ($tipe == 2) {
+            $this->db->order_by('urutan', 'ASC');
+        } else $this->db->order_by('name', 'ASC');
         $query = $this->db->get($this->tabel);
         return $query->result();
     }
@@ -90,7 +103,7 @@ class Navigation_sql extends CI_Model
     public function getsSecondTipe($root = "")
     {
         $this->db->where('root', $root);
-        $this->db->order_by('urutan', 'ASC');
+        $this->db->order_by('name', 'ASC');
         $query = $this->db->get($this->tabel);
         return $query->result();
     }

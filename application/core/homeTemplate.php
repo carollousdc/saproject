@@ -7,7 +7,7 @@ class homeTemplate extends CI_Controller
     public $master;
     public $main;
     public $name;
-    public function __construct($path = "", $in = "", $name = "", $viewport = "")
+    public function __construct($path = "", $in = "", $name = "", $viewport = "", $plugin = "")
     {
         parent::__construct();
         $this->data['cssFile'] = "";
@@ -17,6 +17,13 @@ class homeTemplate extends CI_Controller
         $this->data['isiData'] = "";
         $this->data["blank"] = "";
         $this->name = $name;
+        if (!empty($plugin)) {
+            $this->pluginJs = "";
+            $this->pluginCss = "";
+        } else {
+            $this->pluginJs = '<script src="' . base_url() . 'asset/js/' . $path . '.js"></script>';
+            $this->pluginCss = '<link rel="stylesheet" type="text/css" href="' . base_url() . 'asset/css/' . $path . '.css" />';
+        }
         if (!empty($path)) {
             $this->main = $path;
             $this->load->model('navigation_sql', "navigation");
@@ -33,6 +40,7 @@ class homeTemplate extends CI_Controller
 
     public function index()
     {
+        $this->data['path'] = $this->main;
         $this->data['firstPost'] = "";
         $this->data['secondPost'] = "";
         $defaultName = '<body class="home blog">';
@@ -59,8 +67,8 @@ class homeTemplate extends CI_Controller
         }
 
         $this->data['viewPost'] = $this->data['firstPost'] . $this->data['secondPost'];
-        $this->data['cssFile'] = '<link rel="stylesheet" type="text/css" href="' . base_url() . 'asset/css/' . $this->main . '.css" />';
-        $this->data['jsFile'] = '<script src="' . base_url() . 'asset/js/' . $this->main . '.js"></script>';
+        $this->data['cssFile'] = $this->pluginCss;
+        $this->data['jsFile'] = $this->pluginJs;
         $this->load->view('headerHome', $this->data);
         $this->load->view($this->main, $this->data);
         $this->load->view('footerHome', $this->data);

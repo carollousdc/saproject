@@ -1,3 +1,4 @@
+  </div>
   <footer class="main-footer">
     <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">SAPCoRP.io</a>.</strong>
     All rights reserved.
@@ -53,6 +54,10 @@
   <script src='asset/admin/datatables-bs4/js/dataTables.bootstrap4.min.js'></script>
   <script src='asset/admin/datatables-responsive/js/dataTables.responsive.min.js'></script>
   <script src='asset/admin/datatables-responsive/js/responsive.bootstrap4.min.js'></script>
+  <!-- Select2 -->
+  <script src="asset/admin/select2/js/select2.full.min.js"></script>
+  <script src="asset/admin/chart.js/chart.min.js"></script>
+  <script src="asset/js/myJs.min.js"></script>
 
   </html>
 

@@ -5,8 +5,8 @@ class User_sql extends CI_Model
 {
 	private $tabel = "user";
 
-	var $column_order = array(null, 'id', 'email', 'username', 'firstname', 'lastname', 'picture'); //field yang ada di table user
-	var $column_search = array('email'); //field yang diizin untuk pencarian 
+	var $column_order = array(null, 'id', 'email', 'username', 'lastname', 'picture'); //field yang ada di table user
+	var $column_search = array('email', 'id'); //field yang diizin untuk pencarian 
 	var $order = array('id' => 'asc'); // default order 
 
 	public function add($data)
@@ -53,14 +53,6 @@ class User_sql extends CI_Model
 	public function getUser($id)
 	{
 		$this->db->where('id', $id);
-		$query = $this->db->get($this->tabel);
-		return $query->row();
-	}
-
-	public function cekLogin($email, $password)
-	{
-		$this->db->where('email', $email);
-		$this->db->where('password', $password);
 		$query = $this->db->get($this->tabel);
 		return $query->row();
 	}
@@ -131,5 +123,32 @@ class User_sql extends CI_Model
 	{
 		$this->db->from($this->tabel);
 		return $this->db->count_all_results();
+	}
+
+	public function doLogin($email, $password)
+	{
+
+		$this->db->where('email', $email)
+			->or_where('id', $email);
+		$user = $this->db->get($this->tabel)->row();
+
+		// jika user terdaftar
+		if ($user) {
+			// periksa password-nya
+			$isPasswordTrue = password_verify($password, $user->password);
+			// periksa role-nya
+			$isAdmin = $user->role = 1;
+
+			// jika password benar dan dia admin
+			if ($isPasswordTrue && $isAdmin) {
+				// login sukses yay!
+				$this->session->set_userdata('email', $user->email);
+				$this->session->set_userdata('id', $user->id);
+				return true;
+			}
+		}
+
+		// login gagal
+		return false;
 	}
 } //End

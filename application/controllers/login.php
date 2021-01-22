@@ -20,13 +20,10 @@ class Login extends CI_Controller
 	public function login_validation()
 	{
 		$email = $this->input->post('email');
-		$pass 	= $this->input->post('pass');
+		$password 	= $this->input->post('pass');
 		$error = 'error';
-		$validasiLogin = $this->user_sql->cekLogin($email, $pass);
-
-		if (count($validasiLogin) > 0) {
-			$this->session->set_userdata('email', $email);
-			$this->session->set_userdata('id', $validasiLogin->id);
+		$cekLogin = $this->user_sql->doLogin($email, $password);
+		if (!empty($cekLogin)) {
 			header("Location: ../dashboard");
 		} else {
 			$this->session->set_userdata('error', $error);

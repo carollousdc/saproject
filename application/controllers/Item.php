@@ -8,7 +8,7 @@ class Item extends saTemplate
         parent::__construct(pathinfo(__FILE__, PATHINFO_FILENAME));
     }
 
-    function get_data_user()
+    function get_data()
     {
         $list = $this->master->get_datatables();
         $data = [];
@@ -26,7 +26,6 @@ class Item extends saTemplate
         }
 
         $output = array(
-            // "draw" => $_POST['draw'],
             "recordsTotal" => $this->master->count_all(),
             "recordsFiltered" => $this->master->count_filtered(),
             "data" => $data,

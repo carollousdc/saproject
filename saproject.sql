@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 04 Agu 2020 pada 05.35
+-- Waktu pembuatan: 11 Agu 2020 pada 02.59
 -- Versi server: 10.1.36-MariaDB
 -- Versi PHP: 5.6.38
 
@@ -69,7 +69,7 @@ CREATE TABLE `create` (
   `kategori` varchar(30) NOT NULL,
   `quotes` text NOT NULL,
   `description` text NOT NULL,
-  `isi` varchar(2000) NOT NULL,
+  `isi` text NOT NULL,
   `creator` varchar(30) NOT NULL,
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -79,7 +79,8 @@ CREATE TABLE `create` (
 --
 
 INSERT INTO `create` (`id`, `name`, `slug`, `kategori`, `quotes`, `description`, `isi`, `creator`, `date`) VALUES
-(28, 'I Am a Programmer', 'i-am-a-programmer.html', 'About me', '<strong>REMEMBER:</strong>&nbsp;Code teaches you how to face really big problems.', 'Hi, My name is Carollous Dachi. Im a programmer since 2015 ago. Since childhood I was raised from a well-off family and an educated family. So, since I was 10 years old I already had a computer that was connected to the internet.', 'Since childhood I was raised from a well-off family and an educated family. So, since I was 10 years old I already had a computer that was connected to the internet. I learned a lot of things, but theSince childhood I was raised from a well-off family and an educated family. So, since I\r\n\r\nYes, of course there are many victims I have hacked. Yes, increasing age. Begin building a sense of fondness with computers and technology to the point of choosing lectures. Long story short, now I have worked as a programmer at Bina Bakti. Hopefully in the future, I can become a better programmer.', 'carollousdc', '2020-08-02 21:53:12');
+(28, 'I Am a Programmer', 'i-am-a-programmer.html', 'About me', '<strong>REMEMBER:</strong>&nbsp;Code teaches you how to face really big problems.', 'Hi, My name is Carollous Dachi. Im a programmer since 2015 ago. Since childhood I was raised from a well-off family and an educated family. So, since I was 10 years old I already had a computer that was connected to the internet.', 'Since childhood I was raised from a well-off family and an educated family. So, since I was 10 years old I already had a computer that was connected to the internet. I learned a lot of things, but theSince childhood I was raised from a well-off family and an educated family. So, since I\r\n\r\nYes, of course there are many victims I have hacked. Yes, increasing age. Begin building a sense of fondness with computers and technology to the point of choosing lectures. Long story short, now I have worked as a programmer at Bina Bakti. Hopefully in the future, I can become a better programmer.', 'carollousdc', '2020-08-02 21:53:12'),
+(30, 'Ngoding Capek Gak Sih ?', 'ngoding-capek-gak-sih.html', 'Story', 'Kalau seseorang tidak merasakan capek, berarti dia sedang tidak memperjuangkan apapun di hidupnya.', 'Kalau seseorang tidak merasakan capek, berarti dia sedang tidak memperjuangkan apapun di hidupnya.', '<div class=\"content-wrap content-660 center-relative \">\r\n                    <p class=\"wrap-blockquote\">Halo teman-teman, senang sekali bisa bercerita dengan kalian semua. Pembahasan kali ini,&nbsp;ngoding capek gak sih ?&nbsp;Ngapain sih milih kerja yang ribet-ribet. Toh digaji sebatas karyawan.&nbsp;Ya, memang betul. Makanya gak sedikit orang yang awalnya memilih pekerjaan.&nbsp;</p>\r\n                    <br>\r\n                    <blockquote class=\"inline-blockquote\">\r\n                        <p>Kalau seseorang tidak merasakan capek, berarti dia sedang tidak memperjuangkan apapun di hidupnya.</p>\r\n                    </blockquote>\r\n<p class=\"wrap-blockquote\">IT pindah menjadi seorang pembisnis atau pekerjaan lainnya yang tidak berhubungan dengan IT. Sebenarnya, ngoding itu sangat menyenangkan. Karena, disitulah kita menuangkan semua karya dan imajinasi kita ke dalam suatu program. Tidak cukup sampai disitu, Anda dapat membangun sebuah sistem seperti apa yang Anda mau. Teknologi itu luas, emang bisa mengejarnya? Tentu saja jawabannya tidak. Tapi, Anda bisa mengikutinya. Jika, Anda komitmen belajar dalam waktu satu tahun. Bayangkan Anda sudah berada di level mana ? Jika 5 tahun atau bahkan 10 tahun kemudian ? Bisa jadi Anda telah mengubah dunia dan berdampak positif bagi dunia.</p>\r\n                </div>', 'carollousdc', '2020-08-11 00:01:36');
 
 -- --------------------------------------------------------
 
@@ -179,25 +180,22 @@ CREATE TABLE `user` (
   `email` varchar(25) NOT NULL,
   `firstname` varchar(25) NOT NULL,
   `lastname` varchar(25) NOT NULL,
-  `password` varchar(25) NOT NULL,
+  `password` varchar(250) NOT NULL,
+  `role` int(11) NOT NULL,
   `notification` int(11) NOT NULL,
   `picture` varchar(100) NOT NULL,
-  `creator` varchar(30) NOT NULL
+  `creator` varchar(30) NOT NULL,
+  `last_login` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `user`
 --
 
-INSERT INTO `user` (`id`, `email`, `firstname`, `lastname`, `password`, `notification`, `picture`, `creator`) VALUES
-('ariliem', 'ariliem@gmail.com', 'Arie', 'Liem', '12345', 0, '', 'carollousdc'),
-('cappucino', 'cappucino@gmail.com', 'Cappucino', 'Latte', '12345', 0, '', 'carollousdc'),
-('carollousdc', 'carollousdc@gmail.com', 'Carollous', 'Dachi', '12345', 0, 'download.png', ''),
-('codeigniter', 'codeigniter@gmail.com', 'Codeigniter', 'Version4', '12345', 0, '', 'carollousdc'),
-('ferry', 'ferrysusanto@gmail.com', 'Ferry', 'Susanto', '12345', 1594203031, 'freeLogo.jpeg', ''),
-('tamarin', 'tamarin@gmail.com', 'Tamarin', 'Master', '12345', 0, '', 'carollousdc'),
-('tommysetiawan', 'tommysetiawan@gmail.com', 'Tommy', 'Setiawan', '12345', 1587588571, 'download.png', ''),
-('vicky', 'vickykelly21@gmail.com', 'Vicky', 'Sanjaya', '12345', 1594200349, 'download.png', '');
+INSERT INTO `user` (`id`, `email`, `firstname`, `lastname`, `password`, `role`, `notification`, `picture`, `creator`, `last_login`, `is_active`) VALUES
+('admin', 'admin@gmail.com', 'Admin', 'Setia', '$2y$10$u6g8kLAKF84a2MiSnuJoD.WnQa1VzDb4dsGamEdIrtNu061AEDqU6', 0, 0, '', 'carollousdc', '2020-08-10 23:23:44', NULL),
+('carollousdc', 'carollousdc@gmail.com', 'Carollous', 'Dachi', '$2y$09$TZoHGO4c3WjjtQbYGGolM.CcgAfQJCkFHDQ556GCF0IwOpx5U8206', 0, 0, 'download.png', '', '2020-08-10 21:51:18', NULL);
 
 --
 -- Indexes for dumped tables
@@ -253,7 +251,7 @@ ALTER TABLE `cashflow`
 -- AUTO_INCREMENT untuk tabel `create`
 --
 ALTER TABLE `create`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT untuk tabel `item`

@@ -5,6 +5,6 @@ class Home extends homeTemplate
 {
     public function __construct()
     {
-        parent::__construct(pathinfo(__FILE__, PATHINFO_FILENAME), 1);
+        parent::__construct(pathinfo(__FILE__, PATHINFO_FILENAME), 1, "", "", 1);
     }
 }//End

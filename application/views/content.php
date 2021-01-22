@@ -17,7 +17,7 @@
 
             <div class="entry-content">
                 <div class="content-wrap content-660 center-relative">
-                    <p><?= ($x->description) ?></p>
+                    <p><i><?= ($x->description) ?></i></p>
                     <br>
                     <div class="clear"></div>
                 </div>
@@ -40,13 +40,9 @@
                     <div class="clear"></div>
                 </div>
                 <div class="content-wrap content-660 center-relative ">
-                    <p class="wrap-blockquote"><?= ($x->isi) ?></p>
-                    <br>
-                    <blockquote class="inline-blockquote">
-                        <p><?= ($x->quotes) ?></p>
-                    </blockquote>
-                    <p class="wrap-blockquote"><?= ($x->isi) ?></p>
+                    <?= ($x->isi) ?>
                 </div>
+
                 <div class="content-wrap content-660 center-relative ">
                     <h1 class="entry-title">#</h1>
                     <div class="contact-form">

@@ -8,7 +8,7 @@ class User extends saTemplate
 		parent::__construct(pathinfo(__FILE__, PATHINFO_FILENAME));
 	}
 
-	function get_data_user()
+	function get_data()
 	{
 		$list = $this->master->get_datatables();
 		$data = [];
@@ -28,7 +28,7 @@ class User extends saTemplate
 			$row[] = $value->email;
 			$row[] = $value->firstname;
 			$row[] = $value->lastname;
-			$row[] = '<td style="width: 16.66%;"><span><button data-id="' . $value->id . '" class="btn btn-primary btn_edit">Edit</button><button style="margin-left: 5px;" data-id="' . $value->id . '" class="btn btn-danger btn_hapus">Hapus</button></span></td>';
+			$row[] = '<span><button data-id="' . $value->id . '" class="btn btn-primary btn_edit">Edit</button><button style="margin-left: 5px;" data-id="' . $value->id . '" class="btn btn-danger btn_hapus">Hapus</button></span>';
 
 			$data[] = $row;
 		}

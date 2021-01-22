@@ -1,6 +1,3 @@
-var link = "item";
-var masterlink = "mastermenu";
-
 $(function () {
 	$("#tbl_data").on("click", ".btn_hapus", function () {
 		var id = $(this).attr("data-id");
@@ -19,14 +16,17 @@ $(function () {
 
 	$("#tombol-simpan").click(function () {
 		var data = $("#form-submit").serialize();
-		console.log(data);
 		$.ajax({
 			type: "POST",
 			url: link + "/tambahData",
 			data: data,
 			success: function (response) {
+				$('input[name="id"]').val("");
 				$('input[name="name"]').val("");
-				$('input[name="kategori"]').val("");
+				$('input[name="b_price"]').val("");
+				$('input[name="s_price"]').val("");
+				$('input[name="tipe"]').val("");
+				$('#promo').val("");
 				$("#tbl_data").DataTable().ajax.reload(null, false);
 			},
 		});
@@ -41,9 +41,11 @@ $(function () {
 			dataType: "json",
 			success: function (response) {
 				$("#editModal").modal("show");
-				$('input[name="id_edit"]').val(response[0].id);
-				$('input[name="name_edit"]').val(response[0].name);
-				$('input[name="kategori_edit"]').val(response[0].kategori);
+				$('input[name="id_edit"]').val(response.id);
+				$('input[name="name_edit"]').val(response.name);
+				$('input[name="b_price_edit"]').val(response.b_price);
+				$('input[name="s_price_edit"]').val(response.s_price);
+				$("#promo_edit").select2("val", response.promo);
 				$("#tbl_data").DataTable().ajax.reload(null, false);
 			},
 		});
@@ -52,19 +54,24 @@ $(function () {
 	$("#btn_update_data").on("click", function () {
 		var id = $('input[name="id_edit"]').val();
 		var name = $('input[name="name_edit"]').val();
-		var kategori = $('input[name="kategori_edit"]').val();
+		var b_price = $('input[name="b_price_edit"]').val();
+		var s_price = $('input[name="s_price_edit"]').val();
+        var promo = $("#promo_edit").val();
 		$.ajax({
 			url: link + "/perbaruiData",
 			type: "POST",
 			data: {
 				id: id,
 				name: name,
-				kategori: kategori,
+				b_price: b_price,
+				s_price: s_price,
+				promo: promo,
 			},
 			success: function (response) {
-				$('input[name="id_edit"]').val("");
 				$('input[name="name_edit"]').val("");
-				$('input[name="kategori_edit"]').val("");
+				$('input[name="b_price_edit"]').val("");
+				$('input[name="s_price_edit"]').val("");
+				$("#promo_edit").select2("val", "0");
 				$("#editModal").modal("hide");
 				$("#tbl_data").DataTable().ajax.reload(null, false);
 			},
@@ -72,44 +79,33 @@ $(function () {
 	});
 });
 
-$(function () {
-	var loc = window.location.pathname;
-	$("#nav")
-		.find("#" + link)
-		.each(function () {
-			$(this).addClass("nav-link active", $(this).attr("href") == loc);
-		});
-	$("#nav")
-		.find("#" + masterlink)
-		.each(function () {
-			$(this).addClass("nav-link active", $(this).attr("href") == loc);
-		});
-	$("#nav")
-		.find("#" + masterlink + "1")
-		.each(function () {
-			$(this).addClass(
-				"nav-item has-treeview menu-open",
-				$(this).attr("href") == loc
-			);
-		});
-});
-
 var table;
 $(function () {
 	$(document).ready(function () {
+		var link = $(location).attr("pathname");
 		//datatables
 		table = $("#tbl_data").DataTable({
 			responsive: true,
-			processing: true,
 			serverSide: true,
+			autoWidth: false,
+			sScrollY: "300",
+			sScrollX: "100%",
+			bSort: true,
+			iDisplayLength: 10,
+			bLengthChange: false,
 			order: [],
 			ajax: {
-				url: link + "/get_data_user",
+				url: link + "/get_data",
 				type: "POST",
 			},
 			columnDefs: [
 				{
-					targets: [0],
+					targets: [0, 3],
+					orderable: false,
+				},
+				{
+					targets: -1,
+					width: "200",
 					orderable: false,
 				},
 			],
