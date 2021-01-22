@@ -20,8 +20,6 @@ class Pengeluaran extends saTemplate
         foreach ($getsPromo as $key => $value) {
             $this->data['option_edit'] .= "<option value='" . $value->id . "'>" . $value->name . "</option>";
         }
-
-
         parent::index();
     }
 
@@ -33,8 +31,6 @@ class Pengeluaran extends saTemplate
         $row = [];
         $no = $_POST['start'];
         foreach ($list as $key => $value) {
-
-            (empty($value->promo)) ? $check_promo = "Disabled" : $check_promo = $this->promo->get(['id' => $value->promo])->name;
 
             $no++;
             $row = array();

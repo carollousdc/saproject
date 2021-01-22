@@ -9,6 +9,7 @@ class MY_model extends CI_Model
     public $column_order = array(null, 'id'); //field yang ada di table user
     public $column_search = array('id'); //field yang diizin untuk pencarian 
     public $order = array('id' => 'asc'); // default order 
+    public $changeHeaderName = []; //default change name
 
     public function __construct()
     {
@@ -20,11 +21,14 @@ class MY_model extends CI_Model
         return $this->db->insert($this->tabel, $data);
     }
 
-    public function gets($where = "")
+    public function gets($where = "", $order = "", $api = 0)
     {
         if (empty($where)) $where = array("m.status" => 0);
+        if (!empty($order)) $this->db->order_by($order, 'ASC');
         $query = $this->db->get_where($this->tabel . " m", $where);
-        return $query->result();
+        if (empty($api))
+            return $query->result();
+        else return $query;
     }
 
     public function get($where = "", $order = "")
@@ -32,6 +36,16 @@ class MY_model extends CI_Model
         if (empty($where)) $where = array("status" => 0);
         if (!empty($order)) $this->db->order_by($order, 'DESC');
         return $this->db->get_where($this->tabel . " m", $where)->row();
+    }
+
+    public function edit($data, $where)
+    {
+        return $this->db->update($this->tabel, $data, $where);
+    }
+
+    public function delete($where)
+    {
+        return $this->db->delete($this->tabel, $where);
     }
 
     public function getLastId($count = 0, $code = "")
@@ -57,11 +71,6 @@ class MY_model extends CI_Model
         return $this->db->list_fields($this->tabel);
     }
 
-    public function edit($data, $where)
-    {
-        return $this->db->update($this->tabel, $data, $where);
-    }
-
     public function getsGroup()
     {
         $this->db->select("email");
@@ -77,15 +86,40 @@ class MY_model extends CI_Model
         return $query->row();
     }
 
-    public function delete($where)
-    {
-        return $this->db->delete($this->tabel, $where);
-    }
-
     public function updateData($id, $data)
     {
         $this->db->where('id', $id); // where no induk
         $this->db->update($this->tabel, $data); //mengupdate tb_siswa sesuai kondisi di atas
+    }
+
+    public function getDataByid($id)
+    {
+        $this->db->where('id', $id);
+        $query = $this->db->get($this->tabel);
+        return $query->result();
+    }
+
+    public function doLogin($email, $password)
+    {
+        $this->db->where('email', $email)
+            ->or_where('id', $email);
+        $user = $this->db->get($this->tabel)->row();
+        // jika user terdaftar
+        if ($user) {
+            // periksa password-nya
+            $isPasswordTrue = password_verify($password, $user->password);
+            // periksa role-nya
+            $isAdmin = $user->role = 1;
+            // jika password benar dan dia admin
+            if ($isPasswordTrue && $isAdmin) {
+                // login sukses yay!
+                $this->session->set_userdata('email', $user->email);
+                $this->session->set_userdata('id', $user->id);
+                return true;
+            }
+        }
+        // login gagal
+        return false;
     }
 
     public function _get_datatables_query($where = "")
@@ -140,33 +174,26 @@ class MY_model extends CI_Model
         return $this->db->count_all_results();
     }
 
-    public function doLogin($email, $password)
+    public function get_field_data()
     {
-        $this->db->where('email', $email)
-            ->or_where('id', $email);
-        $user = $this->db->get($this->tabel)->row();
-        // jika user terdaftar
-        if ($user) {
-            // periksa password-nya
-            $isPasswordTrue = password_verify($password, $user->password);
-            // periksa role-nya
-            $isAdmin = $user->role = 1;
-            // jika password benar dan dia admin
-            if ($isPasswordTrue && $isAdmin) {
-                // login sukses yay!
-                $this->session->set_userdata('email', $user->email);
-                $this->session->set_userdata('id', $user->id);
-                return true;
-            }
-        }
-        // login gagal
-        return false;
+        $allfield = $this->db->list_fields($this->tabel);
+        $res = ['no'];
+        $res = array_merge($res, $allfield);
+        $res = array_reverse(array_reverse(array_diff($res, ["id", "creator", "create_date", "status"])));
+        return $res;
     }
 
-    public function getDataByid($id)
+    public function getHeaderName()
     {
-        $this->db->where('id', $id);
-        $query = $this->db->get($this->tabel);
-        return $query->result();
+        $TableHeader = "<thead><tr>";
+        $fieldName = $this->get_field_data();
+        foreach ($fieldName as $key => $value) {
+            if (!empty($this->changeHeaderName[$value])) {
+                $TableHeader .= "<th>" . $this->changeHeaderName[$value] . "</th>";
+            } else $TableHeader .= "<th>" . ucwords($value) . "</th>";
+        }
+        $TableHeader .= "<th>Action</th>";
+        $TableHeader .= "</tr></thead>";
+        return $TableHeader;
     }
 } //End

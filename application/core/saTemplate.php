@@ -6,6 +6,7 @@ class saTemplate extends CI_Controller
     public $viewpage = "";
     public $master;
     public $main;
+
     public function __construct($path = "", $in = "", $detail = "")
     {
         parent::__construct();
@@ -31,6 +32,9 @@ class saTemplate extends CI_Controller
 
     public function index()
     {
+        if (!empty($this->master)) $this->data['tableHeader'] = $this->master->getHeaderName();
+        $this->data['menu'] = $this->navigation->get(['link' => $this->main]);
+        (!empty($this->data['menu']->root)) ? $this->data['masterMenu'] = $this->navigation->get(['id' => $this->data['menu']->root]) : $this->data['masterMenu'] = $this->data['menu'];
         $this->data['cssFile'] .= '<link rel="stylesheet" href="' . base_url() . 'asset/css/' . $this->main . '.min.css">';
         $this->data['jsFile'] .= '<script src="' . base_url() . 'asset/js/' . $this->main . '.min.js"></script>';
         $this->load->view('header', $this->data);
@@ -170,7 +174,6 @@ class saTemplate extends CI_Controller
                 $this->data['sidebar'] .= '<p>' . $value->name . '</p></a></li>';
             }
         }
-
 
         $output = array(
             "data" => $this->data['sidebar'],

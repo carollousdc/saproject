@@ -203,6 +203,15 @@ if (isset($_SESSION['id'])) $dataUser = $this->user_sql->getUser($_SESSION['id']
             <div class="col-sm-12">
               <div id="pesan"></div>
             </div><!-- /.col -->
+            <div class="col-sm-6">
+              <h1 class="m-0 text-dark"><?= (isset($masterMenu->name)) ? $masterMenu->name : "" ?></h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="<?= (isset($menu->link)) ? $menu->link : '' ?>"><?= (isset($menu->name)) ? $menu->name : '' ?></a></li>
+                <li class="breadcrumb-item active">Index</li>
+              </ol>
+            </div><!-- /.col -->
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
       </div>

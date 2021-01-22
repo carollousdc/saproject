@@ -5,7 +5,7 @@
         <div class="col-7">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Data Penjualan</h3>
+                    <h3 class="card-title">Data <?= ($menu->name); ?></h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -39,7 +39,7 @@
         <div class="col-5">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Data Penjualan</h3>
+                    <h3 class="card-title">Data Statistic <?= ($menu->name); ?></h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">

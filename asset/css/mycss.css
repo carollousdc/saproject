@@ -1,3 +1,15 @@
 .dataTables_filter {
 	display: none;
 }
+/* 
+body .modal-dialog {
+	margin-left: 0;
+}
+.modal {
+	z-index: 2003;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+} */

@@ -67,7 +67,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table class='table table-bordered table-striped table-hover'>
+                        <table id="tbl_data" class='table table-bordered table-striped table-hover'>
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -80,8 +80,6 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="tbl_data">
-                            </tbody>
                         </table>
                     </div>
                     <!-- /.card-body -->

@@ -94,7 +94,7 @@ $(function () {
 						"</td>" +
 						"</tr>";
 				}
-				$("#tbl_data").html(html);
+				// $("#tbl_data").html(html);
 			},
 		});
 	}
@@ -205,4 +205,39 @@ $(function () {
 				$(this).attr("href") == loc
 			);
 		});
+});
+
+
+var table;
+$(function () {
+	$(document).ready(function () {
+		var link = $(location).attr("pathname");
+		//datatables
+		table = $("#tbl_data").DataTable({
+			responsive: true,
+			serverSide: true,
+			autoWidth: false,
+			sScrollY: "300",
+			sScrollX: "100%",
+			bSort: true,
+			iDisplayLength: 10,
+			bLengthChange: false,
+			order: [],
+			ajax: {
+				url: link + "/get_data",
+				type: "POST",
+			},
+			columnDefs: [
+				{
+					targets: [0, 3],
+					orderable: false,
+				},
+				{
+					targets: -1,
+					width: "200",
+					orderable: false,
+				},
+			],
+		});
+	});
 });
