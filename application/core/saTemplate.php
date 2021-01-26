@@ -19,6 +19,7 @@ class saTemplate extends CI_Controller
         $this->data["blank"] = "";
         $this->data["input_form"] = "";
         $this->data["edit_form"] = "";
+        $this->validate = [];
         if (!empty($path)) {
             $this->main = $path;
             $this->load->model('navigation_sql', "navigation");
@@ -35,32 +36,36 @@ class saTemplate extends CI_Controller
 
     public function index()
     {
-        $validateColNum = [1, 12, 6, 4, 3];
-        $count = count($this->master->get_validate_data());
-        if (!empty($this->master)) $this->data['tableHeader'] = $this->master->getHeaderName();
         $this->data['menu'] = $this->navigation->get(['link' => $this->main]);
         (!empty($this->data['menu']->root)) ? $this->data['masterMenu'] = $this->navigation->get(['id' => $this->data['menu']->root]) : $this->data['masterMenu'] = $this->data['menu'];
 
-        foreach ($this->master->get_validate_data() as $key => $value) {
-            $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count] . '">';
-            // $field = $this->master->gets()[0]->$value;
-            if (empty($field)) $field = "s";
-            if (isset($this->change_name[$value])) $value = $this->change_name[$value];
-            if (is_numeric($field)) {
-                $this->data['input_form'] .= ucwords($value) . ':<input type="number" class="form-control" name="' . $value . '" required="required"><br>';
-            } else $this->data['input_form'] .= ucwords($value) . ':<input type="text" class="form-control" name="' . $value . '" required="required"><br>';
-            $this->data['input_form'] .= '</div>';
-        }
+        $validateColNum = [1, 12, 6, 4, 3, 2];
+        if (!empty($this->master)) {
+            $this->data['tableHeader'] = $this->master->getHeaderName();
+            $count = count($this->master->get_validate_data());
 
-        foreach ($this->master->get_validate_data() as $key => $value) {
-            $this->data['edit_form'] .= '<div class="form-group">';
-            $this->data['edit_form'] .= '<input type="hidden" name="id_edit">';
-            // $field = $this->master->gets()[0]->$value;
-            if (empty($field)) $field = "s";
-            if (is_numeric($field)) {
-                $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="number" class="form-control" name="' . $value . '_edit" required="required"><br>';
-            } else $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="text" class="form-control" name="' . $value . '_edit" required="required"><br>';
-            $this->data['edit_form'] .= '</div>';
+
+            foreach ($this->master->get_validate_data() as $key => $value) {
+                $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count] . '">';
+                // $field = $this->master->gets()[0]->$value;
+                if (empty($field)) $field = "s";
+                if (isset($this->change_name[$value])) $value = $this->change_name[$value];
+                if (is_numeric($field)) {
+                    $this->data['input_form'] .= ucwords($value) . ':<input type="number" class="form-control" name="' . $value . '" required="required"><br>';
+                } else $this->data['input_form'] .= ucwords($value) . ':<input type="text" class="form-control" name="' . $value . '" required="required"><br>';
+                $this->data['input_form'] .= '</div>';
+            }
+
+            foreach ($this->master->get_validate_data() as $key => $value) {
+                $this->data['edit_form'] .= '<div class="form-group">';
+                $this->data['edit_form'] .= '<input type="hidden" name="id_edit">';
+                // $field = $this->master->gets()[0]->$value;
+                if (empty($field)) $field = "s";
+                if (is_numeric($field)) {
+                    $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="number" class="form-control" name="' . $value . '_edit" required="required"><br>';
+                } else $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="text" class="form-control" name="' . $value . '_edit" required="required"><br>';
+                $this->data['edit_form'] .= '</div>';
+            }
         }
 
         $this->data['cssFile'] .= '<link rel="stylesheet" href="' . base_url() . 'asset/css/' . $this->main . '.min.css">';

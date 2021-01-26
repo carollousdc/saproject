@@ -9,19 +9,8 @@
                 <div class="card-body">
                     <form id="form-submit" method="post" action="produk/tambahData">
                         <div class="row margin">
-                            <div class="col-sm-3">
-                                Nama Produk: <input type="text" class="form-control" name="name" id="name" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
-                            </div>
+                            <?= ($input_form) ?>
                             <div class="col-sm-2">
-                                Harga Beli: <input type="number" class="form-control" name="b_price" id="b_price" required="required"><br>
-                            </div>
-                            <div class="col-sm-2">
-                                Harga Jual: <input type="number" class="form-control" name="s_price" id="s_price" required="required"><br>
-                            </div>
-                            <div class="col-sm-2">
-                                Tipe: <input type="text" class="form-control" name="tipe" id="tipe" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
-                            </div>
-                            <div class="col-sm-3">
                                 Promo:
                                 <?= ($optionPromo) ?>
                             </div>

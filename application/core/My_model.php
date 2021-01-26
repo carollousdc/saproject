@@ -71,6 +71,11 @@ class MY_model extends CI_Model
         return $this->db->list_fields($this->tabel);
     }
 
+    public function get_field_type()
+    {
+        return $this->db->field_data($this->tabel);
+    }
+
     public function getsGroup()
     {
         $this->db->select("email");
@@ -202,5 +207,31 @@ class MY_model extends CI_Model
         $TableHeader .= "<th>Action</th>";
         $TableHeader .= "</tr></thead>";
         return $TableHeader;
+    }
+
+    public function option($nama, $selected, $where = "", $must = "", $data = [], $disabled = "")
+    {
+        $datlist = $data;
+        $isi = '<select id="' . $nama . '" name="' . $nama . '" class="form-control select2bs4" value="' . $selected . '" ' . $disabled . '>';
+        $selectedFlag = "";
+        if ($selected == "") $selectedFlag = "selected";
+        if (empty($must))
+            $isi .= '<option ' . $selectedFlag . ' value="" >Silahkan Pilih</option>';
+        $getArray = $this->gets($where);
+        if (!empty($datlist)) $getArray = $datlist;
+        $no = 0;
+        foreach ($getArray as $key => $value) {
+            $selectedFlag = "";
+            if (empty($datlist)) {
+                if ($selected == $value->id) $selectedFlag = "selected";
+                $isi .= '<option value="' . $value->id . '" ' . $selectedFlag . '>' . $value->name . '</option>';
+            } else {
+                if ($selected == $value) $selectedFlag = "selected";
+                $isi .= '<option value="' . $no . '" ' . $selectedFlag . '>' . $value . '</option>';
+            }
+            $no++;
+        }
+        $isi .= '</select>';
+        return $isi;
     }
 } //End

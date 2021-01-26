@@ -6,5 +6,7 @@ class Karyawan extends saTemplate
     public function __construct()
     {
         parent::__construct(pathinfo(__FILE__, PATHINFO_FILENAME));
+        $this->validate = ['jabatan'];
+        $this->change_tipe = ['jabatan' => ['Cooker', 'Cashier', 'Cleaning Services']];
     }
 }//End  
