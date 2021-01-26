@@ -35,13 +35,16 @@ class saTemplate extends CI_Controller
 
     public function index()
     {
+        $validateColNum = [1, 12, 6, 4, 3];
+        $count = count($this->master->get_validate_data());
         if (!empty($this->master)) $this->data['tableHeader'] = $this->master->getHeaderName();
         $this->data['menu'] = $this->navigation->get(['link' => $this->main]);
         (!empty($this->data['menu']->root)) ? $this->data['masterMenu'] = $this->navigation->get(['id' => $this->data['menu']->root]) : $this->data['masterMenu'] = $this->data['menu'];
 
         foreach ($this->master->get_validate_data() as $key => $value) {
-            $this->data['input_form'] .= '<div class="col-sm-3">';
-            $field = $this->master->gets()[0]->$value;
+            $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count] . '">';
+            // $field = $this->master->gets()[0]->$value;
+            if (empty($field)) $field = "s";
             if (isset($this->change_name[$value])) $value = $this->change_name[$value];
             if (is_numeric($field)) {
                 $this->data['input_form'] .= ucwords($value) . ':<input type="number" class="form-control" name="' . $value . '" required="required"><br>';
@@ -52,8 +55,8 @@ class saTemplate extends CI_Controller
         foreach ($this->master->get_validate_data() as $key => $value) {
             $this->data['edit_form'] .= '<div class="form-group">';
             $this->data['edit_form'] .= '<input type="hidden" name="id_edit">';
-            $field = $this->master->gets()[0]->$value;
-            // if (isset($this->change_name[$value])) $value = $this->change_name[$value];
+            // $field = $this->master->gets()[0]->$value;
+            if (empty($field)) $field = "s";
             if (is_numeric($field)) {
                 $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="number" class="form-control" name="' . $value . '_edit" required="required"><br>';
             } else $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="text" class="form-control" name="' . $value . '_edit" required="required"><br>';
@@ -237,7 +240,6 @@ class saTemplate extends CI_Controller
                 $this->data['sidebar'] .= '<p>' . $value->name . '</p></a></li>';
             }
         }
-
         $output = array(
             "data" => $this->data['sidebar'],
         );
