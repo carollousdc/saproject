@@ -20,6 +20,7 @@ class saTemplate extends CI_Controller
         $this->data["input_form"] = "";
         $this->data["edit_form"] = "";
         $this->validate = [];
+        $this->change_option = [];
         if (!empty($path)) {
             $this->main = $path;
             $this->load->model('navigation_sql', "navigation");
@@ -44,27 +45,28 @@ class saTemplate extends CI_Controller
             $this->data['tableHeader'] = $this->master->getHeaderName();
             $count = count($this->master->get_validate_data());
 
-
+            $value_change = array();
             foreach ($this->master->get_validate_data() as $key => $value) {
                 $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count] . '">';
                 // $field = $this->master->gets()[0]->$value;
                 if (empty($field)) $field = "s";
-                if (isset($this->change_name[$value])) $value = $this->change_name[$value];
+                (isset($this->change_name[$value])) ? $value_change = $this->change_name[$value] : $value_change = $value;
                 if (is_numeric($field)) {
-                    $this->data['input_form'] .= ucwords($value) . ':<input type="number" class="form-control" name="' . $value . '" required="required"><br>';
-                } else $this->data['input_form'] .= ucwords($value) . ':<input type="text" class="form-control" name="' . $value . '" required="required"><br>';
+                    $this->data['input_form'] .= ucwords($value_change) . ':<input type="number" class="form-control" name="' . $value . '" required="required"><br>';
+                } else $this->data['input_form'] .= ucwords($value_change) . ':<input type="text" class="form-control" name="' . $value . '" required="required"><br>';
                 $this->data['input_form'] .= '</div>';
             }
 
             foreach ($this->master->get_validate_data() as $key => $value) {
                 $this->data['edit_form'] .= '<div class="form-group">';
                 $this->data['edit_form'] .= '<input type="hidden" name="id_edit">';
-                // $field = $this->master->gets()[0]->$value;
-                if (empty($field)) $field = "s";
-                if (is_numeric($field)) {
-                    $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="number" class="form-control" name="' . $value . '_edit" required="required"><br>';
-                } else $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="text" class="form-control" name="' . $value . '_edit" required="required"><br>';
-                $this->data['edit_form'] .= '</div>';
+                if ($field = $this->master->gets()[0]->$value) {
+                    if (isset($this->change_name[$value])) $value = $this->change_name[$value];
+                    if (is_numeric($field)) {
+                        $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="number" class="form-control" name="' . $value . '_edit" required="required"><br>';
+                    } else $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="text" class="form-control" name="' . $value . '_edit" required="required"><br>';
+                    $this->data['edit_form'] .= '</div>';
+                }
             }
         }
 
@@ -86,11 +88,17 @@ class saTemplate extends CI_Controller
             $row = array();
             $row[] = $no;
             foreach ($this->master->get_validate_data() as $k => $val) {
-                if (is_numeric($value->$val)) {
-                    if (in_array($val, $this->validate)) {
-                        $row[] = $value->$val . " hari";
-                    } else $row[] = number_format($value->$val, 2, ",", ".");
-                } else  $row[] = $value->$val;
+                if (in_array($val, $this->change_option)) {
+                    if ($value->$val) {
+                        $row[] = $this->$val->get(['id' => $value->$val])->name;
+                    } else $row[] = '-';
+                } else {
+                    if (is_numeric($value->$val)) {
+                        if (in_array($val, $this->validate)) {
+                            $row[] = $value->$val . " hari";
+                        } else $row[] = number_format($value->$val, 2, ",", ".");
+                    } else  $row[] = $value->$val;
+                }
             }
             $row[] = '<span><button data-id="' . $value->id . '" class="btn btn-primary btn_edit">Edit</button><button style="margin-left: 5px;" data-id="' . $value->id . '" class="btn btn-danger btn_hapus">Hapus</button></span>';
             $data[] = $row;

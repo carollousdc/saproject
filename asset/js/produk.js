@@ -41,11 +41,12 @@ $(function () {
 			dataType: "json",
 			success: function (response) {
 				$("#editModal").modal("show");
-				$('input[name="id_edit"]').val(response.id);
-				$('input[name="name_edit"]').val(response.name);
-				$('input[name="b_price_edit"]').val(response.b_price);
-				$('input[name="s_price_edit"]').val(response.s_price);
-				$("#promo_edit").select2("val", response.promo);
+				for(var i = 0; i <= response.key_count; i++){
+					dummyval = response.key[i];
+					if(dummyval == 'promo'){
+						$('#promo_edit').val(response.data[dummyval]).trigger('change');
+					} else $('input[name="'+response.key[i]+'_edit"]').val(response.data[dummyval]);
+				}
 				$("#tbl_data").DataTable().ajax.reload(null, false);
 			},
 		});

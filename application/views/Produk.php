@@ -70,24 +70,12 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">×</button>
                         <h4 class="modal-title">Edit Data</h4>
+                        <button type="button" class="close" data-dismiss="modal">×</button>
                     </div>
                     <div class="modal-body">
                         <form>
-                            <div class="form-group">
-                                <label for="name">Nama Produk</label>
-                                <input type="hidden" name="id_edit">
-                                <input type="text" name="name_edit" class="form-control"></input>
-                            </div>
-                            <div class="form-group">
-                                <label for="b_price">Harga Beli</label>
-                                <input type="number" name="b_price_edit" class="form-control"></input>
-                            </div>
-                            <div class="form-group">
-                                <label for="s_price">Harga Jual</label>
-                                <input type="number" name="s_price_edit" class="form-control"></input>
-                            </div>
+                            <?= ($edit_form) ?>
                             <div class="form-group">
                                 <label for="promo">Promo</label>
                                 <select id="promo_edit" name="promo_edit" class="form-control select2bs4">

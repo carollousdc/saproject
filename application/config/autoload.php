@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('user_sql', 'navigation_sql', 'pendapatan_sql', 'supplier_sql', 'navigation_sql');
+$autoload['model'] = array('user_sql', 'navigation_sql', 'pendapatan_sql', 'supplier_sql', 'promo_sql' => 'promo');
