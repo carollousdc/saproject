@@ -44,16 +44,15 @@ class saTemplate extends CI_Controller
         if (!empty($this->master)) {
             $this->data['tableHeader'] = $this->master->getHeaderName();
             $count = count($this->master->get_validate_data());
-
             $value_change = array();
             foreach ($this->master->get_validate_data() as $key => $value) {
                 $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count] . '">';
-                // $field = $this->master->gets()[0]->$value;
-                if (empty($field)) $field = "s";
-                (isset($this->change_name[$value])) ? $value_change = $this->change_name[$value] : $value_change = $value;
-                if (is_numeric($field)) {
-                    $this->data['input_form'] .= ucwords($value_change) . ':<input type="number" class="form-control" name="' . $value . '" required="required"><br>';
-                } else $this->data['input_form'] .= ucwords($value_change) . ':<input type="text" class="form-control" name="' . $value . '" required="required"><br>';
+                foreach ($this->master->get_field_type() as $k) {
+                    (isset($this->change_name[$value])) ? $value_change = $this->change_name[$value] : $value_change = $value;
+                    if ($k->name == $value && $k->type == 'int') $this->data['input_form'] .= ucwords($value_change) . ':<input type="number" class="form-control" name="' . $value . '" required="required"><br>';
+                    if ($k->name == $value && $k->type == 'varchar') $this->data['input_form'] .= ucwords($value_change) . ':<input type="text" class="form-control" name="' . $value . '" required="required"><br>';
+                    if ($k->name == $value && $k->type == 'text') $this->data['input_form'] .= ucwords($value_change) . ':<textarea class="form-control" name="' . $value . '" required="required"></textarea><br>';
+                }
                 $this->data['input_form'] .= '</div>';
             }
 
