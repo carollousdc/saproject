@@ -70,10 +70,6 @@ $(function () {
 	});
 });
 
-$("#searchbox").on("keyup search input paste cut", function() {
-	table.search(this.value).draw();
- });  
-
 var table;
 $(function () {
 	$(document).ready(function () {

@@ -63,9 +63,6 @@ class Penjualan extends saTemplate
         $x_value = $n_value - ($this->pengeluaran->sumFixCost()->biaya / 30);
         ($n_value > $this->pengeluaran->sumFixCost()->biaya) ? $getCondition = '<span class="description-percentage text-success"><i class="fas fa-caret-up"></i> ' : $getCondition = '<span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> ';
         $data['percentageGoalDay'] = $getCondition . number_format((abs(round(($x_value), 2))), 2, ",", ".") . '</span>';
-
-
-
         $data['bepPie'] = $this->pengeluaran->sumFixCost()->biaya;
         $data['grossIncomePie'] = $this->kasir_detail->sumMasterTotal()->qty;
         $data['balancePie'] = $this->kasir_detail->sumModalTotal()->qty;

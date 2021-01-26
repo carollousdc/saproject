@@ -42,6 +42,34 @@ class saTemplate extends CI_Controller
         $this->load->view('footer', $this->data);
     }
 
+    function get_data()
+    {
+        $list = $this->master->get_datatables();
+        $data = [];
+        $row = [];
+        $no = $_POST['start'];
+        foreach ($list as $key => $value) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            foreach ($this->master->get_validate_data() as $k => $val) {
+                if (is_numeric($value->$val)) {
+                    if (in_array($val, $this->validate)) {
+                        $row[] = $value->$val . " hari";
+                    } else $row[] = number_format($value->$val, 2, ",", ".");
+                } else  $row[] = $value->$val;
+            }
+            $row[] = '<span><button data-id="' . $value->id . '" class="btn btn-primary btn_edit">Edit</button><button style="margin-left: 5px;" data-id="' . $value->id . '" class="btn btn-danger btn_hapus">Hapus</button></span>';
+            $data[] = $row;
+        }
+        $output = array(
+            "recordsTotal" => $this->master->count_all(),
+            "recordsFiltered" => $this->master->count_filtered(),
+            "data" => $data,
+        );
+        echo json_encode($output);
+    }
+
     function tambahData()
     {
         $data = [];

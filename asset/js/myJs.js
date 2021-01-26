@@ -125,6 +125,10 @@ function showMsg(msg, tipe_msg) {
   $("#pesan").append($msg_view);
 }
 
+$("#searchbox").on("keyup search input paste cut", function() {
+	table.search(this.value).draw();
+ });  
+
 // var oldXHR = window.XMLHttpRequest;
 
 // function newXHR() {
