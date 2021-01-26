@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 22 Jan 2021 pada 03.52
+-- Waktu pembuatan: 26 Jan 2021 pada 17.31
 -- Versi server: 10.1.38-MariaDB
 -- Versi PHP: 5.6.40
 
@@ -49,46 +49,13 @@ INSERT INTO `bahan` (`id`, `name`, `b_price`, `tipe`, `expired`, `create_date`, 
 ('Bah00003', 'Tabung Gas', 20000, 'Alat Masak', 2, '2021-01-20 19:03:40', '', 0),
 ('Bah00004', 'Air Galon', 6000, 'Minuman', 90, '2021-01-21 12:31:44', '', 0),
 ('Bah00005', 'Le Minerale', 4000, 'Minuman', 90, '2021-01-21 12:33:50', '', 0),
+('Bah00006', 'percobaan', 10000, 'Makanan', 10, '2021-01-26 10:27:56', '', 0),
 ('sup00001', 'Bakmi', 11000, 'Core', 3, '2021-01-18 05:28:47', '', 0),
 ('sup00002', 'Pangsit', 1000, 'Core', 3, '2021-01-18 05:29:17', '', 0),
 ('sup00003', 'Baso', 90000, 'Core', 5, '2021-01-18 07:32:48', '', 0),
 ('sup00004', 'Telur', 2000, 'Topping', 7, '2021-01-18 07:37:59', '', 0),
 ('sup00005', 'Paper Bowl', 2000, 'Alat Makan', 90, '2021-01-18 08:09:26', '', 0),
 ('sup00006', 'Sendok Bening', 4000, 'Alat Makan', 90, '2021-01-18 08:09:47', '', 0);
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `cashflow`
---
-
-CREATE TABLE `cashflow` (
-  `id` int(11) NOT NULL,
-  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `creator` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `cashflow_detail`
---
-
-CREATE TABLE `cashflow_detail` (
-  `id` int(11) NOT NULL,
-  `item` varchar(50) NOT NULL,
-  `qty` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `cashflow_detail`
---
-
-INSERT INTO `cashflow_detail` (`id`, `item`, `qty`) VALUES
-(0, '3', '3'),
-(0, '3', '3'),
-(0, '3', ''),
-(0, '3', '');
 
 -- --------------------------------------------------------
 
@@ -143,6 +110,29 @@ INSERT INTO `item` (`id`, `name`, `kategori`, `creator`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `karyawan`
+--
+
+CREATE TABLE `karyawan` (
+  `id` varchar(30) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `jabatan` int(11) NOT NULL,
+  `alamat` text NOT NULL,
+  `status` int(11) NOT NULL,
+  `creator` varchar(30) NOT NULL,
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `karyawan`
+--
+
+INSERT INTO `karyawan` (`id`, `name`, `jabatan`, `alamat`, `status`, `creator`, `create_date`) VALUES
+('Kar00001', 'Muhammad Yoga Pratama', 0, 'Jl. Bima No. 6', 0, '', '2021-01-26 16:37:20');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `kasir`
 --
 
@@ -169,7 +159,14 @@ INSERT INTO `kasir` (`id`, `customer`, `no_order`, `cash`, `tax`, `status`, `cre
 ('order00006', 'Teman Ci Felis', 6, 88000, 0, 0, '2021-01-21 12:25:19'),
 ('order00007', 'Denny', 7, 44000, 0, 0, '2021-01-21 16:31:26'),
 ('order00008', 'Pembeli Umum', 8, 100000, 0, 0, '2021-01-21 16:37:24'),
-('order00009', 'Carollous Dachi', 9, 25000, 0, 0, '2021-01-22 07:23:44');
+('order00009', 'Carollous Dachi', 9, 25000, 0, 0, '2021-01-22 07:23:44'),
+('order00010', 'Pembeli Umum', 10, 49000, 0, 0, '2021-01-22 15:57:58'),
+('order00011', 'Langganan Bakmi Pusat', 11, 63000, 0, 0, '2021-01-22 18:26:21'),
+('order00012', 'Ko Erik', 12, 9000, 0, 0, '2021-01-22 18:27:47'),
+('order00013', 'Pembeli Umum', 13, 38000, 0, 0, '2021-01-22 18:29:14'),
+('order00014', 'Ko Arie', 14, 8000, 0, 0, '2021-01-22 18:29:44'),
+('order00015', 'Kak Wita Kosan', 15, 25000, 0, 0, '2021-01-22 18:50:07'),
+('order00016', 'Vicky', 16, 19000, 0, 0, '2021-01-22 18:53:48');
 
 -- --------------------------------------------------------
 
@@ -220,7 +217,25 @@ INSERT INTO `kasir_detail` (`kasir`, `barang`, `qty`, `diskon`, `p_promo`, `pric
 ('order00008', 12, 1, 0, '0', 8000, 0, '2021-01-21 16:37:25'),
 ('order00008', 31, 1, 0, '0', 18000, 0, '2021-01-21 16:37:25'),
 ('order00008', 13, 1, 0, '0', 4000, 0, '2021-01-21 16:37:25'),
-('order00009', 4, 1, 0, '0', 25000, 0, '2021-01-22 07:23:44');
+('order00009', 4, 1, 0, '0', 25000, 0, '2021-01-22 07:23:44'),
+('order00010', 17, 1, 0, '0', 19000, 0, '2021-01-22 15:57:58'),
+('order00010', 21, 1, 0, '0', 19000, 0, '2021-01-22 15:57:58'),
+('order00010', 23, 1, 0, 'Pro00002', 0, 0, '2021-01-22 15:57:58'),
+('order00010', 12, 1, 0, '0', 8000, 0, '2021-01-22 15:57:58'),
+('order00010', 22, 1, 0, '0', 3000, 0, '2021-01-22 15:57:58'),
+('order00011', 20, 1, 0, '0', 19000, 0, '2021-01-22 18:26:21'),
+('order00011', 4, 1, 0, '0', 25000, 0, '2021-01-22 18:26:21'),
+('order00011', 6, 1, 0, '0', 19000, 0, '2021-01-22 18:26:21'),
+('order00011', 23, 1, 0, 'Pro00002', 0, 0, '2021-01-22 18:26:21'),
+('order00012', 13, 1, 0, '0', 4000, 0, '2021-01-22 18:27:47'),
+('order00012', 14, 1, 0, '0', 5000, 0, '2021-01-22 18:27:47'),
+('order00013', 17, 1, 0, '0', 19000, 0, '2021-01-22 18:29:14'),
+('order00013', 6, 1, 0, '0', 19000, 0, '2021-01-22 18:29:14'),
+('order00013', 23, 1, 0, 'Pro00002', 0, 0, '2021-01-22 18:29:14'),
+('order00014', 12, 1, 0, '0', 8000, 0, '2021-01-22 18:29:44'),
+('order00015', 4, 1, 0, '0', 25000, 0, '2021-01-22 18:50:07'),
+('order00016', 20, 1, 0, '0', 19000, 0, '2021-01-22 18:53:48'),
+('order00016', 23, 1, 0, 'Pro00002', 0, 0, '2021-01-22 18:53:48');
 
 -- --------------------------------------------------------
 
@@ -266,7 +281,8 @@ INSERT INTO `navigation` (`id`, `name`, `link`, `second_id`, `tipe`, `root`, `ur
 (25, 'Promo', 'promo', 'promo', 1, 1, 0, 'far fa-circle nav-icon', '', '2021-01-18 08:32:25', 0),
 (26, 'Master Barang', '', 'masterbarang', 0, 0, 0, 'fas fa-cubes nav-icon', '', '2021-01-19 15:06:17', 0),
 (29, 'Master SDM', '', 'mastersdm', 0, 0, 0, 'fas fa-users nav-icon', '', '2021-01-20 03:10:27', 0),
-(30, 'Pengeluaran', 'pengeluaran', 'pengeluaran', 1, 1, 0, 'far fa-circle nav-icon', '', '2021-01-20 20:49:01', 0);
+(30, 'Pengeluaran', 'pengeluaran', 'pengeluaran', 1, 1, 0, 'far fa-circle nav-icon', '', '2021-01-20 20:49:01', 0),
+(31, 'Karyawan', 'karyawan', 'karyawan', 1, 29, 0, 'far fa-circle nav-icon', '', '2021-01-22 14:35:02', 0);
 
 -- --------------------------------------------------------
 
@@ -302,9 +318,9 @@ INSERT INTO `pendapatan` (`id`, `name`, `categories`, `date`, `ammount`, `notifi
 
 CREATE TABLE `pengeluaran` (
   `id` varchar(50) NOT NULL,
+  `buy_date` date NOT NULL,
   `name` varchar(100) NOT NULL,
   `periode` int(11) NOT NULL,
-  `buy_date` date NOT NULL,
   `biaya` int(11) NOT NULL,
   `tipe` int(11) NOT NULL,
   `keterangan` text NOT NULL,
@@ -317,9 +333,9 @@ CREATE TABLE `pengeluaran` (
 -- Dumping data untuk tabel `pengeluaran`
 --
 
-INSERT INTO `pengeluaran` (`id`, `name`, `periode`, `buy_date`, `biaya`, `tipe`, `keterangan`, `create_date`, `status`, `creator`) VALUES
-('Pen00001', 'Gaji Karyawan', 30, '2021-01-21', 1300000, 0, 'Pemotongan gaji karyawan dari kasbon.', '2021-01-21 08:49:44', 0, ''),
-('Pen00002', 'Bayar Sewa Ruko', 30, '2021-01-21', 850000, 0, '-', '2021-01-21 09:13:21', 0, '');
+INSERT INTO `pengeluaran` (`id`, `buy_date`, `name`, `periode`, `biaya`, `tipe`, `keterangan`, `create_date`, `status`, `creator`) VALUES
+('Pen00001', '2021-01-21', 'Gaji Karyawan', 30, 1300000, 0, 'Pemotongan gaji karyawan dari kasbon.', '2021-01-21 08:49:44', 0, ''),
+('Pen00002', '2021-01-21', 'Bayar Sewa Ruko', 30, 850000, 0, '-', '2021-01-21 09:13:21', 0, '');
 
 -- --------------------------------------------------------
 
@@ -517,12 +533,6 @@ ALTER TABLE `bahan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `cashflow`
---
-ALTER TABLE `cashflow`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indeks untuk tabel `create`
 --
 ALTER TABLE `create`
@@ -581,12 +591,6 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT untuk tabel `cashflow`
---
-ALTER TABLE `cashflow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT untuk tabel `create`
 --
 ALTER TABLE `create`
@@ -602,7 +606,7 @@ ALTER TABLE `item`
 -- AUTO_INCREMENT untuk tabel `navigation`
 --
 ALTER TABLE `navigation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT untuk tabel `pendapatan`

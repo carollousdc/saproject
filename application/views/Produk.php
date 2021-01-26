@@ -30,34 +30,19 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Data Produk</h3>
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 350px;">
+                            <input type="text" id="searchbox" name="searchbox" class="form-control float-right" placeholder="Search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
                     <table id="tbl_data" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Produk</th>
-                                <th>Tipe</th>
-                                <th>Harga Beli</th>
-                                <th>Harga Jual</th>
-                                <th>Promo</th>
-                                <th data-priority="1">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Produk</th>
-                                <th>Tipe</th>
-                                <th>Harga Beli</th>
-                                <th>Harga Jual</th>
-                                <th>Promo</th>
-                                <th>Action</th>
-                            </tr>
-                        </tfoot>
+                        <?= $tableHeader ?>
                     </table>
                 </div>
                 <!-- /.card-body -->
@@ -66,7 +51,6 @@
         </div>
         <div id="editModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
-
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
