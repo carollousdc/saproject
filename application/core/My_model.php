@@ -71,6 +71,18 @@ class MY_model extends CI_Model
         return $this->db->list_fields($this->tabel);
     }
 
+    public function get_change_field($value)
+    {
+        return [
+            "create_date" => function ($value) {
+                return $this->cfg->tanggalInd($value->create_date);
+            },
+            "creator" => function ($value) {
+                return $this->person->get(['id' => $value->creator])->name;
+            }
+        ];
+    }
+
     public function get_field_type()
     {
         return $this->db->field_data($this->tabel);

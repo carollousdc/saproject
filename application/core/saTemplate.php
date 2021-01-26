@@ -21,6 +21,7 @@ class saTemplate extends CI_Controller
         $this->data["edit_form"] = "";
         $this->validate = [];
         $this->change_option = [];
+        $this->change_tipe = [];
         if (!empty($path)) {
             $this->main = $path;
             $this->load->model('navigation_sql', "navigation");
@@ -40,7 +41,7 @@ class saTemplate extends CI_Controller
         $this->data['menu'] = $this->navigation->get(['link' => $this->main]);
         (!empty($this->data['menu']->root)) ? $this->data['masterMenu'] = $this->navigation->get(['id' => $this->data['menu']->root]) : $this->data['masterMenu'] = $this->data['menu'];
 
-        $validateColNum = [1, 12, 6, 4, 3, 2];
+        $validateColNum = [1, 12, 6, 4, 3, 2, 3];
         if (!empty($this->master)) {
             $this->data['tableHeader'] = $this->master->getHeaderName();
             $count = count($this->master->get_validate_data());
@@ -52,6 +53,7 @@ class saTemplate extends CI_Controller
                     if ($k->name == $value && $k->type == 'int') $this->data['input_form'] .= ucwords($value_change) . ':<input type="number" class="form-control" name="' . $value . '" required="required"><br>';
                     if ($k->name == $value && $k->type == 'varchar') $this->data['input_form'] .= ucwords($value_change) . ':<input type="text" class="form-control" name="' . $value . '" required="required"><br>';
                     if ($k->name == $value && $k->type == 'text') $this->data['input_form'] .= ucwords($value_change) . ':<textarea class="form-control" name="' . $value . '" required="required"></textarea><br>';
+                    if ($k->name == $value && $k->type == 'date') $this->data['input_form'] .= ucwords($value_change) . ':<input type="date" class="form-control" name="' . $value . '" required="required"><br>';
                 }
                 $this->data['input_form'] .= '</div>';
             }
@@ -88,6 +90,7 @@ class saTemplate extends CI_Controller
             $row[] = $no;
             foreach ($this->master->get_validate_data() as $k => $val) {
                 if (in_array($val, $this->change_option)) {
+                    // ($this->change_tipe[$val]) ? $change_tipe = $this->change_tipe[$val][$value->$val] : $change_tipe = "-";
                     if ($value->$val) {
                         $row[] = $this->$val->get(['id' => $value->$val])->name;
                     } else $row[] = '-';

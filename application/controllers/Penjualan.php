@@ -44,19 +44,19 @@ class Penjualan extends saTemplate
         //Revenue percentage
         $y_value = intval($this->kasir_detail->sumMasterTotal(['date(create_date)' => date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))))])->qty);
         $n_value = intval($this->kasir_detail->sumMasterTotal(['date(create_date)' => date('Y-m-d')])->qty);
-        $x_revenue = (($y_value - $n_value) / $y_value) * 100;
+        ($y_value > 0 && $n_value) ? $x_revenue = (($y_value - $n_value) / $y_value) * 100 : $x_revenue = "-";
         ($y_value > $n_value) ? $getCondition = '<span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> ' : $getCondition = '<span class="description-percentage text-success"><i class="fas fa-caret-up"></i> ';
         $data['percentageRevenue'] = '<span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> ' . abs(round(($x_revenue), 2)) . ' %</span>';
         //Cost percentage
         $y_value = $this->purchase_detail->sumMasterTotal(['date(create_date)' => date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))))])->qty + $this->kasir_detail->sumModalTotal(['date(create_date)' => date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))))])->qty;
         $n_value = $this->purchase_detail->sumMasterTotal(['date(create_date)' => date('Y-m-d')])->qty + $this->kasir_detail->sumModalTotal(['date(create_date)' => date('Y-m-d')])->qty;
-        $x_value = (($y_value - $n_value) / $y_value) * 100;
+        ($y_value > 0 && $n_value) ? $x_value = (($y_value - $n_value) / $y_value) * 100 : $x_value = "-";
         ($y_value > $n_value) ? $getCondition = '<span class="description-percentage text-success"><i class="fas fa-caret-down"></i> ' : $getCondition = '<span class="description-percentage text-danger"><i class="fas fa-caret-up"></i> ';
         $data['percentageCost'] = $getCondition . abs(round(($x_value), 2)) . ' %</span>';
         //Net income percentage
         $y_value = $this->kasir_detail->sumMasterTotal(['date(create_date)' => date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))))])->qty - ($this->purchase_detail->sumMasterTotal(['date(create_date)' => date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))))])->qty + $this->kasir_detail->sumModalTotal(['date(create_date)' => date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))))])->qty);
         $n_value = $this->kasir_detail->sumMasterTotal(['date(create_date)' => date('Y-m-d')])->qty - ($this->purchase_detail->sumMasterTotal(['date(create_date)' => date('Y-m-d')])->qty + $this->kasir_detail->sumModalTotal(['date(create_date)' => date('Y-m-d')])->qty);
-        $x_netIncome = (($y_value - $n_value) / $y_value) * 100;
+        ($y_value > 0 && $n_value) ? $x_netIncome = (($y_value - $n_value) / $y_value) * 100 : $x_netIncome = "-";
         ($y_value > $n_value) ? $getCondition = '<span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> ' : $getCondition = '<span class="description-percentage text-success"><i class="fas fa-caret-up"></i> ';
         $data['percentageNetIncome'] = $getCondition . abs(round(($x_netIncome), 2)) . ' %</span>';
         //Goal Day percentage

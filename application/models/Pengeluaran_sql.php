@@ -8,8 +8,7 @@ class Pengeluaran_sql extends MY_model
         parent::__construct();
         $CI = &get_instance();
         $this->tabel = "pengeluaran";
-        $this->tabel_prefix = "order";
-        $this->changeHeaderName = ['buy_date' => "Tanggal Pembayaran"];
+        $this->tabel_prefix = "pen";
     }
 
     public function sumFixCost($where = "")
