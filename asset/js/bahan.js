@@ -40,10 +40,11 @@ $(function () {
 			dataType: "json",
 			success: function (response) {
 				$("#editModal").modal("show");
-				$('input[name="id_edit"]').val(response.id);
-				$('input[name="name_edit"]').val(response.name);
-				$('input[name="b_price_edit"]').val(response.b_price);
-                $('input[name="s_price_edit"]').val(response.s_price);
+				for(var i = 0; i <= response.key_count; i++){
+					dummyval = response.key[i];
+					$('input[name="'+response.key[i]+'_edit"]').val(response.data[dummyval]);
+				}
+				
 				$("#tbl_data").DataTable().ajax.reload(null, false);
 			},
 		});

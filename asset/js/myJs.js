@@ -17,7 +17,7 @@ function getSidebar() {
   });
 };
 
-$("input").on('input', function() {
+$('input[name="name"]').on('input', function() {
   validateName($(this).val());
 });
 

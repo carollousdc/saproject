@@ -6,6 +6,7 @@ class saTemplate extends CI_Controller
     public $viewpage = "";
     public $master;
     public $main;
+    public $change_name;
 
     public function __construct($path = "", $in = "", $detail = "")
     {
@@ -16,6 +17,8 @@ class saTemplate extends CI_Controller
         $this->data['headData'] = "";
         $this->data['isiData'] = "";
         $this->data["blank"] = "";
+        $this->data["input_form"] = "";
+        $this->data["edit_form"] = "";
         if (!empty($path)) {
             $this->main = $path;
             $this->load->model('navigation_sql', "navigation");
@@ -35,6 +38,28 @@ class saTemplate extends CI_Controller
         if (!empty($this->master)) $this->data['tableHeader'] = $this->master->getHeaderName();
         $this->data['menu'] = $this->navigation->get(['link' => $this->main]);
         (!empty($this->data['menu']->root)) ? $this->data['masterMenu'] = $this->navigation->get(['id' => $this->data['menu']->root]) : $this->data['masterMenu'] = $this->data['menu'];
+
+        foreach ($this->master->get_validate_data() as $key => $value) {
+            $this->data['input_form'] .= '<div class="col-sm-3">';
+            $field = $this->master->gets()[0]->$value;
+            if (isset($this->change_name[$value])) $value = $this->change_name[$value];
+            if (is_numeric($field)) {
+                $this->data['input_form'] .= ucwords($value) . ':<input type="number" class="form-control" name="' . $value . '" required="required"><br>';
+            } else $this->data['input_form'] .= ucwords($value) . ':<input type="text" class="form-control" name="' . $value . '" required="required"><br>';
+            $this->data['input_form'] .= '</div>';
+        }
+
+        foreach ($this->master->get_validate_data() as $key => $value) {
+            $this->data['edit_form'] .= '<div class="form-group">';
+            $this->data['edit_form'] .= '<input type="hidden" name="id_edit">';
+            $field = $this->master->gets()[0]->$value;
+            // if (isset($this->change_name[$value])) $value = $this->change_name[$value];
+            if (is_numeric($field)) {
+                $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="number" class="form-control" name="' . $value . '_edit" required="required"><br>';
+            } else $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="text" class="form-control" name="' . $value . '_edit" required="required"><br>';
+            $this->data['edit_form'] .= '</div>';
+        }
+
         $this->data['cssFile'] .= '<link rel="stylesheet" href="' . base_url() . 'asset/css/' . $this->main . '.min.css">';
         $this->data['jsFile'] .= '<script src="' . base_url() . 'asset/js/' . $this->main . '.min.js"></script>';
         $this->load->view('header', $this->data);
@@ -78,7 +103,6 @@ class saTemplate extends CI_Controller
         }
 
         $data['id'] = $this->master->getLastId(0, substr($this->main, 0, 3));
-
         if (!empty($data['password'])) {
             $cost = 8;
             do {
@@ -103,7 +127,18 @@ class saTemplate extends CI_Controller
     {
         $id = $this->input->post('id');
         $data = $this->master->get(['id' => $id]);
-        echo json_encode($data);
+        $count_data = $this->master->get_validate_data();
+
+        foreach ($count_data as $key => $val) {
+            $data_key[$key] = $val;
+        }
+
+        $output = array(
+            "data" => $data,
+            "key" => $data_key,
+            "key_count" => count($count_data),
+        );
+        echo json_encode($output);
     }
 
     function hapusData()
