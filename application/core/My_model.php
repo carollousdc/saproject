@@ -7,7 +7,7 @@ class MY_model extends CI_Model
     public $tabel_prefix = "";
 
     public $column_order = array(null, 'id'); //field yang ada di table user
-    public $column_search = array('id'); //field yang diizin untuk pencarian 
+    public $column_search = array('name'); //field yang diizin untuk pencarian 
     public $order = array('id' => 'asc'); // default order 
     public $changeHeaderName = []; //default change name
 
@@ -99,6 +99,13 @@ class MY_model extends CI_Model
     public function getUser($id)
     {
         $this->db->where('id', $id);
+        $query = $this->db->get($this->tabel);
+        return $query->row();
+    }
+
+    public function getRoot($root)
+    {
+        $this->db->where('id', $root);
         $query = $this->db->get($this->tabel);
         return $query->row();
     }
@@ -221,7 +228,7 @@ class MY_model extends CI_Model
         return $TableHeader;
     }
 
-    public function option($nama, $selected, $where = "", $must = "", $data = [], $disabled = "")
+    public function option($nama, $selected, $where = "", $must = "", $data = [], $disabled = "", $setValue = "")
     {
         $datlist = $data;
         $isi = '<select id="' . $nama . '" name="' . $nama . '" class="form-control select2bs4" value="' . $selected . '" ' . $disabled . '>';
@@ -235,8 +242,9 @@ class MY_model extends CI_Model
         foreach ($getArray as $key => $value) {
             $selectedFlag = "";
             if (empty($datlist)) {
-                if ($selected == $value->id) $selectedFlag = "selected";
-                $isi .= '<option value="' . $value->id . '" ' . $selectedFlag . '>' . $value->name . '</option>';
+                (!empty($setValue)) ? $x = $setValue : $x = "id";
+                if ($selected == $value->$x) $selectedFlag = "selected";
+                $isi .= '<option value="' . $value->$x . '" ' . $selectedFlag . '>' . $value->name . '</option>';
             } else {
                 if ($selected == $value) $selectedFlag = "selected";
                 $isi .= '<option value="' . $no . '" ' . $selectedFlag . '>' . $value . '</option>';

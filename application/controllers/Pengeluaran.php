@@ -7,6 +7,7 @@ class Pengeluaran extends saTemplate
     {
         parent::__construct(pathinfo(__FILE__, PATHINFO_FILENAME));
         $this->validate = ['periode'];
+        $this->change_option = ['tipe'];
     }
 
     public function index()
@@ -20,6 +21,8 @@ class Pengeluaran extends saTemplate
         foreach ($getsPromo as $key => $value) {
             $this->data['option_edit'] .= "<option value='" . $value->id . "'>" . $value->name . "</option>";
         }
+        if (empty($this->data['tipe'])) $this->data['tipe'] = $this->tipe->gets()[0]->id;
+        $this->data['optionTipe'] =  $this->tipe->option('tipe', $this->data['tipe'], ['role' => pathinfo(__FILE__, PATHINFO_FILENAME)], 1);
         parent::index();
     }
 }//End

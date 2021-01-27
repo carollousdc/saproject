@@ -17,28 +17,6 @@ class Navigation extends saTemplate
     }
 
 
-    function tambahData()
-    {
-        $data = [];
-        foreach ($this->input->post() as $key => $value) {
-            if (!empty($value)) {
-                $data[$key] = $value;
-            }
-        }
-
-        if (!empty($data['password'])) {
-            $cost = 8;
-            do {
-                $cost++;
-                $start = microtime(true);
-                $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT, ["cost" => $cost]);
-                $end = microtime(true);
-            } while (($end - $start) < $timeTarget);
-        }
-
-        $data = $this->master->add($data);
-        echo json_encode($data);
-    }
 
     function ambilData()
     {

@@ -21,7 +21,10 @@ class saTemplate extends CI_Controller
         $this->data["edit_form"] = "";
         $this->validate = [];
         $this->change_option = [];
+        $this->change_data = [];
         $this->change_tipe = [];
+        $this->disabled = [];
+        $this->to_change = [];
         if (!empty($path)) {
             $this->main = $path;
             $this->load->model('navigation_sql', "navigation");
@@ -41,31 +44,40 @@ class saTemplate extends CI_Controller
         $this->data['menu'] = $this->navigation->get(['link' => $this->main]);
         (!empty($this->data['menu']->root)) ? $this->data['masterMenu'] = $this->navigation->get(['id' => $this->data['menu']->root]) : $this->data['masterMenu'] = $this->data['menu'];
 
-        $validateColNum = [1, 12, 6, 4, 3, 2, 3, 4, 6];
+        $validateColNum = [1, 12, 6, 4, 3, 2, 3, 4, 6, 12];
         if (!empty($this->master)) {
             $this->data['tableHeader'] = $this->master->getHeaderName();
             $count = count($this->master->get_validate_data());
             $value_change = array();
             foreach ($this->master->get_validate_data() as $key => $value) {
-                $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count] . '">';
-                foreach ($this->master->get_field_type() as $k) {
-                    (isset($this->change_name[$value])) ? $value_change = $this->change_name[$value] : $value_change = $value;
-                    if ($k->name == $value && $k->type == 'int') $this->data['input_form'] .= ucwords($value_change) . ':<input type="number" class="form-control" name="' . $value . '" required="required"><br>';
-                    if ($k->name == $value && $k->type == 'varchar') $this->data['input_form'] .= ucwords($value_change) . ':<input type="text" class="form-control" name="' . $value . '" required="required"><br>';
-                    if ($k->name == $value && $k->type == 'text') $this->data['input_form'] .= ucwords($value_change) . ':<textarea class="form-control" name="' . $value . '" required="required"></textarea><br>';
-                    if ($k->name == $value && $k->type == 'date') $this->data['input_form'] .= ucwords($value_change) . ':<input type="date" class="form-control" name="' . $value . '" required="required"><br>';
+                (isset($this->change_name[$value])) ? $value_change = $this->change_name[$value] : $value_change = $value;
+                if (!in_array($value, $this->change_data)) {
+                    $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count] . '">';
+                    if (empty($this->data[$value])) $this->data[$value] = 0;
+                    foreach ($this->master->get_field_type() as $k) {
+                        if (!in_array($value, $this->change_data)) {
+                            if ($k->name == $value && $k->type == 'int') $this->data['input_form'] .= ucwords($value_change) . ':<input type="number" class="form-control" name="' . $value . '" required="required"><br>';
+                            if ($k->name == $value && $k->type == 'varchar') $this->data['input_form'] .= ucwords($value_change) . ':<input type="text" class="form-control" name="' . $value . '" required="required"><br>';
+                            if ($k->name == $value && $k->type == 'text') $this->data['input_form'] .= ucwords($value_change) . ':<textarea class="form-control" name="' . $value . '" required="required"></textarea><br>';
+                            if ($k->name == $value && $k->type == 'date') $this->data['input_form'] .= ucwords($value_change) . ':<input type="date" class="form-control" name="' . $value . '" required="required"><br>';
+                        }
+                    }
+                    $this->data['input_form'] .= '</div>';
+                } else {
+                    $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count] . '">';
+                    if (empty($this->data[$value])) $this->data[$value] = $this->tipe->gets(['role' => $this->main])[0]->id;
+                    $this->data['input_form'] .= ucwords($value_change) . ':' . $this->tipe->option($value, $this->data[$value], ['role' => $this->main], 1);
+                    $this->data['input_form'] .= '</div>';
                 }
-                $this->data['input_form'] .= '</div>';
             }
 
             foreach ($this->master->get_validate_data() as $key => $value) {
                 $this->data['edit_form'] .= '<div class="form-group">';
                 $this->data['edit_form'] .= '<input type="hidden" name="id_edit">';
-                if ($field = $this->master->gets()[0]->$value) {
+                foreach ($this->master->get_field_type() as $k) {
                     if (isset($this->change_name[$value])) $value = $this->change_name[$value];
-                    if (is_numeric($field)) {
-                        $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="number" class="form-control" name="' . $value . '_edit" required="required"><br>';
-                    } else $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="text" class="form-control" name="' . $value . '_edit" required="required"><br>';
+                    if ($k->name == $value && $k->type == 'int') $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="number" class="form-control" name="' . $value . '_edit" required="required"><br>';
+                    if ($k->name == $value && $k->type == 'varchar') $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="text" class="form-control" name="' . $value . '_edit" required="required"><br>';
                     $this->data['edit_form'] .= '</div>';
                 }
             }
@@ -89,17 +101,21 @@ class saTemplate extends CI_Controller
             $row = array();
             $row[] = $no;
             foreach ($this->master->get_validate_data() as $k => $val) {
-                if (in_array($val, $this->change_option)) {
-                    // ($this->change_tipe[$val]) ? $change_tipe = $this->change_tipe[$val][$value->$val] : $change_tipe = "-";
-                    if ($value->$val) {
-                        $row[] = $this->$val->get(['id' => $value->$val])->name;
-                    } else $row[] = '-';
+                if (in_array($val, $this->change_data)) {
+                    $x =  $this->to_change[$val];
+                    $row[] = $this->$x->get(['id' => $value->$val])->name;
                 } else {
-                    if (is_numeric($value->$val)) {
-                        if (in_array($val, $this->validate)) {
-                            $row[] = $value->$val . " hari";
-                        } else $row[] = number_format($value->$val, 2, ",", ".");
-                    } else  $row[] = $value->$val;
+                    if (in_array($val, $this->change_option)) {
+                        if (!empty($value->$val)) {
+                            $row[] = $this->$val->get(['id' => $value->$val])->name;
+                        } else $row[] = "-";
+                    } else {
+                        if (is_numeric($value->$val)) {
+                            if (in_array($val, $this->validate)) {
+                                $row[] = $value->$val . " hari";
+                            } else $row[] = number_format($value->$val, 2, ",", ".");
+                        } else  $row[] = $value->$val;
+                    }
                 }
             }
             $row[] = '<span><button data-id="' . $value->id . '" class="btn btn-primary btn_edit">Edit</button><button style="margin-left: 5px;" data-id="' . $value->id . '" class="btn btn-danger btn_hapus">Hapus</button></span>';

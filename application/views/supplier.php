@@ -4,7 +4,7 @@
         <div class="col-12">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Create Product</h3>
+                    <h3 class="card-title">Tambah <?= $menu->name ?></h3>
                 </div>
                 <div class="card-body">
                     <form id="form-submit" method="post" action="produk/tambahData">
@@ -36,33 +36,12 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Produk</h3>
+                    <h3 class="card-title">Tambah <?= $menu->name ?></h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
                     <table id="tbl_data" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Supplier</th>
-                                <th>Alamat</th>
-                                <th>Kontak</th>
-                                <th>Kode</th>
-                                <th data-priority="1">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Supplier</th>
-                                <th>Alamat</th>
-                                <th>Kontak</th>
-                                <th>Kode</th>
-                                <th>Action</th>
-                            </tr>
-                        </tfoot>
+                        <?= $tableHeader ?>
                     </table>
                 </div>
                 <!-- /.card-body -->

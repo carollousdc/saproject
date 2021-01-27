@@ -61,7 +61,7 @@
                                             </div>
                                             <div class="col-6">
                                                 <div class="input-group mb-3">
-                                                    <input type="text" id="tipe" name="tipe" class="form-control" placeholder="Tipe pengeluaran" required>
+                                                    <?= $optionTipe ?>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text"><i class="fas fa-percentage"></i></span>
                                                     </div>

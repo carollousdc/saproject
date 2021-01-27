@@ -7,35 +7,27 @@
           <h3 class="card-title">Create User</h3>
         </div>
         <div class="card-body">
-          <div class="row margin">
-            <div class="col-12">
-              <form id="form-submit" method="post">
+          <form id="form-submit" method="post">
+            <div class="row margin">
+              <div class="col-sm-2">
+                Username: <input type="text" class="form-control" name="id" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
+              </div>
+              <div class="col-sm-2">
+                E-mail: <input type="email" class="form-control" name="email"><br>
+              </div>
+              <div class="col-sm-2">
+                Password: <input type="password" class="form-control" name="password" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
+              </div>
+              <div class="col-sm-3">
+                Firstname: <input type="text" class="form-control" name="firstname" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
+              </div>
+              <div class="col-sm-3">
+                Lastname: <input type="text" class="form-control" name="lastname" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
+              </div>
+              <div class="col-sm-12">
+                <button type="button" class="btn btn-success" id="tombol-simpan">Simpan</button>
+              </div>
             </div>
-            <div class="col-sm-4">
-              Username: <input type="text" class="form-control" name="id" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
-            </div>
-            <div class="col-sm-4">
-              E-mail: <input type="email" class="form-control" name="email"><br>
-            </div>
-            <div class="col-sm-4">
-              Password: <input type="password" class="form-control" name="password" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
-            </div>
-
-            <div class="col-sm-6">
-              Firstname: <input type="text" class="form-control" name="firstname" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
-            </div>
-
-            <div class="col-sm-6">
-              Lastname: <input type="text" class="form-control" name="lastname" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
-            </div>
-
-            <div class="col-sm-12">
-              <button type="button" class="btn btn-success" id="tombol-simpan">Simpan</button>
-              <!--    <button type="button" class="btn btn-success toastsDefaultSuccess">
-                  Launch Success Toast
-                </button> -->
-            </div>
-          </div>
           </form>
         </div>
       </div>
