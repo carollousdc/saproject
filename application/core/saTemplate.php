@@ -41,7 +41,7 @@ class saTemplate extends CI_Controller
         $this->data['menu'] = $this->navigation->get(['link' => $this->main]);
         (!empty($this->data['menu']->root)) ? $this->data['masterMenu'] = $this->navigation->get(['id' => $this->data['menu']->root]) : $this->data['masterMenu'] = $this->data['menu'];
 
-        $validateColNum = [1, 12, 6, 4, 3, 2, 3];
+        $validateColNum = [1, 12, 6, 4, 3, 2, 3, 4, 6];
         if (!empty($this->master)) {
             $this->data['tableHeader'] = $this->master->getHeaderName();
             $count = count($this->master->get_validate_data());

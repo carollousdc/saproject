@@ -16,40 +16,6 @@ class Navigation extends saTemplate
         parent::index();
     }
 
-    function get_data()
-    {
-
-        $list = $this->master->get_datatables();
-        $data = [];
-        $row = [];
-        $no = $_POST['start'];
-        foreach ($list as $key => $value) {
-
-            (empty($value->promo)) ? $check_promo = "Disabled" : $check_promo = $this->promo->get(['id' => $value->promo])->name;
-
-            $no++;
-            $row = array();
-            $row[] = $no;
-            $row[] = $value->name;
-            $row[] = $value->name;
-            $row[] = $value->name;
-            $row[] = $value->name;
-            $row[] = $value->name;
-            $row[] = $value->name;
-            $row[] = '<span><button data-id="' . $value->id . '" class="btn btn-primary btn_edit">Edit</button><button style="margin-left: 5px;" data-id="' . $value->id . '" class="btn btn-danger btn_hapus">Hapus</button></span>';
-            $data[] = $row;
-        }
-
-        $output = array(
-            // "draw" => $_POST['draw'],
-            "recordsTotal" => $this->master->count_all(),
-            "recordsFiltered" => $this->master->count_filtered(),
-            "data" => $data,
-        );
-        //output dalam format JSON
-        echo json_encode($output);
-    }
-
 
     function tambahData()
     {

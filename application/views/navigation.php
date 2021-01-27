@@ -5,7 +5,7 @@
             <div class="col-12">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Navigation</h3>
+                        <h3 class="card-title">Tambah <?= $menu->name ?></h3>
                     </div>
                     <div class="card-body">
                         <div class="row margin">
@@ -53,7 +53,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Data User Detail</h3>
+                        <h3 class="card-title">Data <?= $menu->name ?></h3>
 
                         <div class="card-tools">
                             <div class="input-group input-group-sm" style="width: 150px;">
@@ -68,18 +68,7 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="tbl_data" class='table table-bordered table-striped table-hover'>
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Menu</th>
-                                    <th>Link</th>
-                                    <th>JS/CSS</th>
-                                    <th>Tipe</th>
-                                    <th>Root</th>
-                                    <th>Icon</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
+                            <?= $tableHeader ?>
                         </table>
                     </div>
                     <!-- /.card-body -->
