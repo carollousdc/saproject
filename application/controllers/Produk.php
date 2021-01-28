@@ -10,6 +10,8 @@ class Produk extends saTemplate
         $this->validate = ['s_price', 'b_price'];
         $this->change_name = ['b_price' => "Harga Beli", 's_price' => "Harga Jual"];
         $this->change_option = ['promo'];
+        $this->change_data = ['promo'];
+        $this->disabled = ['promo'];
     }
 
     public function index()

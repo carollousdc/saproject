@@ -1,19 +1,4 @@
 $(function () {
-	$("#tbl_data").on("click", ".btn_hapus", function () {
-		var id = $(this).attr("data-id");
-		var status = confirm("Yakin ingin menghapus?");
-		if (status) {
-			$.ajax({
-				url: link + "/hapusData",
-				type: "POST",
-				data: { id: id },
-				success: function (response) {
-					$("#tbl_data").DataTable().ajax.reload(null, false);
-				},
-			});
-		}
-	});
-
 	$("#tbl_data").on("click", ".btn_edit", function () {
 		var id = $(this).attr("data-id");
 		$.ajax({

@@ -1,4 +1,19 @@
 $(function () {
+	$("#tbl_data").on("click", ".btn_hapus", function () {
+		var id = $(this).attr("data-id");
+		var status = confirm("Yakin ingin menghapus?");
+		if (status) {
+			$.ajax({
+				url: link + "/hapusData",
+				type: "POST",
+				data: { id: id },
+				success: function (response) {
+					$("#tbl_data").DataTable().ajax.reload(null, false);
+				},
+			});
+		}
+	});
+
 	$("#tbl_data").on("click", ".btn_edit", function () {
 		var id = $(this).attr("data-id");
 		$.ajax({
@@ -10,10 +25,9 @@ $(function () {
 				$("#editModal").modal("show");
 				for(var i = 0; i <= response.key_count; i++){
 					dummyval = response.key[i];
-					if(dummyval == 'promo'){
-						$('#promo_edit').val(response.data[dummyval]).trigger('change');
-					} else $('input[name="'+response.key[i]+'_edit"]').val(response.data[dummyval]);
+					$('input[name="'+response.key[i]+'_edit"]').val(response.data[dummyval]);
 				}
+				
 				$("#tbl_data").DataTable().ajax.reload(null, false);
 			},
 		});
@@ -23,8 +37,7 @@ $(function () {
 		var id = $('input[name="id_edit"]').val();
 		var name = $('input[name="name_edit"]').val();
 		var b_price = $('input[name="b_price_edit"]').val();
-		var s_price = $('input[name="s_price_edit"]').val();
-        var promo = $("#promo_edit").val();
+        var s_price = $('input[name="s_price_edit"]').val();
 		$.ajax({
 			url: link + "/perbaruiData",
 			type: "POST",
@@ -33,13 +46,11 @@ $(function () {
 				name: name,
 				b_price: b_price,
 				s_price: s_price,
-				promo: promo,
 			},
 			success: function (response) {
 				$('input[name="name_edit"]').val("");
 				$('input[name="b_price_edit"]').val("");
-				$('input[name="s_price_edit"]').val("");
-				$("#promo_edit").select2("val", "0");
+                $('input[name="s_price_edit"]').val("");
 				$("#editModal").modal("hide");
 				$("#tbl_data").DataTable().ajax.reload(null, false);
 			},
@@ -58,7 +69,7 @@ $(function () {
 			autoWidth: false,
 			sScrollY: "300",
 			sScrollX: "100%",
-			bSort: true,
+			bSort: false,
 			iDisplayLength: 10,
 			bLengthChange: false,
 			order: [],

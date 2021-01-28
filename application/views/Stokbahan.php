@@ -35,7 +35,14 @@
                 </div>
                 <div class="card-body">
                     <table id="tbl_data" class="table table-bordered table-hover">
-                        <?= (isset($tableHeader)) ? $tableHeader : "" ?>
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Stok</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
                     </table>
                 </div>
             </div>

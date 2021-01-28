@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Bukti Pembelian | Koperasi Bina Bakti</title>
+		<style>
+			table td, table th{
+				padding:5px;
+			}
+			table th{
+				text-align:center;
+			}
+
+		</style>
+    </head>
+    <body>
+        
+		<table cellpadding="20">
+		<tr>
+			<td colspan="7"><h3 align="center">DAFTAR PEMBELIAN</h3></td>
+		</tr>
+		<tr>
+			<td><b>NO. PO</b></td>
+			<td><b>:</b></td>
+			<td><b>PO/BIMA/2020/01/0001</b></td>
+			
+			<td>&nbsp;</td>
+			
+			<td>TANGGAL</td>
+			<td>:</td>
+			<td>15 Januari 2020</td>
+		</tr>
+		<tr>
+			<td>SUPPLIER</td>
+			<td>:</td>
+			<td>MITRA EKA PERKASA</td>
+			
+			<td>&nbsp;</td>
+			
+			<td>NO. INVOICE SUPPLIER</td>
+			<td>:</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td colspan="7" style="height:20px;">&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="7">
+				<table border="1">
+					<tr>
+						<th>No.</th>
+						<th>Nama Barang</th>
+						<th>Jumlah</th>
+						<th>Harga</th>
+						<th>Sub Total</th>
+					</tr>
+										<tr id="rowNum1">
+						<td>1</td>
+						<td>KERTAS A4 70GR (RIM) - RIM00A4</td>
+						<td style="text-align:right;">75</td>
+						<td style="text-align:right;">35,000</td>
+						<td style="text-align:right;">2,625,000</td>
+					</tr>
+										<tr id="rowNum2">
+						<td>2</td>
+						<td>KERTAS F4 70GR (RIM) - RIM00F4</td>
+						<td style="text-align:right;">100</td>
+						<td style="text-align:right;">40,000</td>
+						<td style="text-align:right;">4,000,000</td>
+					</tr>
+									</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6" style="height:20px;">&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">MENGETAHUI,</td>
+		</tr>
+		<tr>
+			<td colspan="6" style="height:100px;">&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">(VINA)</td>
+		</tr>
+	</table>
+    </body>
+</html>

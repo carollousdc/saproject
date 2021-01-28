@@ -15,7 +15,7 @@
                                 <?= ($optionPromo) ?>
                             </div>
                             <div class="col-sm-12">
-                                <button type="button" class="btn btn-success" id="tombol-simpan">Simpan</button>
+                                <button type="submit" class="btn btn-success" id="tombol-simpan">Simpan</button>
                             </div>
                         </div>
                     </form>

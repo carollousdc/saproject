@@ -51,11 +51,12 @@ class saTemplate extends CI_Controller
         if (!empty($this->master)) {
             $this->data['tableHeader'] = $this->master->getHeaderName();
             $count = count($this->master->get_validate_data());
+            if ($count == 5) $count = ($count + 1);
             $value_change = array();
             foreach ($this->master->get_validate_data() as $key => $value) {
                 (isset($this->change_name[$value])) ? $value_change = $this->change_name[$value] : $value_change = $value;
                 if (!in_array($value, $this->change_data)) {
-                    $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count] . '">';
+                    $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count - count($this->disabled)] . '">';
                     if (empty($this->data[$value])) $this->data[$value] = 0;
                     foreach ($this->master->get_field_type() as $k) {
                         if (!in_array($value, $this->change_data)) {
@@ -111,7 +112,7 @@ class saTemplate extends CI_Controller
                 } else {
                     if (in_array($val, $this->change_data)) {
                         if (!empty($value->$val)) {
-                            $x =  $this->to_change[$val];
+                            (isset($this->to_change[$val])) ? $x = $this->to_change[$val] : $x = $val;
                             (empty($this->select_change[$val])) ? $y = 'id' : $y = $this->select_change[$val];
                             $row[] = $this->$x->get([$y => $value->$val])->name;
                         } else $row[] = "-";
@@ -190,7 +191,7 @@ class saTemplate extends CI_Controller
     function hapusData()
     {
         $id = $this->input->post('id');
-        $data = $this->master->delete($id);
+        $data = $this->master->delete(['id' => $id]);
         echo json_encode($data);
     }
 
