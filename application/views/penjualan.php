@@ -43,7 +43,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <canvas id="myChart" width="400" height="400"></canvas>
+                    <canvas id="myChart" width="400" height="320"></canvas>
                 </div>
             </div>
             <!-- /.card-body -->

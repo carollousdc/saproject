@@ -127,7 +127,40 @@ function showMsg(msg, tipe_msg) {
 
 $("#searchbox").on("keyup search input paste cut", function() {
 	table.search(this.value).draw();
- });  
+ }); 
+
+ $('#form-submit').on('submit', function(e){
+	e.preventDefault();
+	Swal.fire({
+		title: 'Are you sure?',
+		text: "You won't be able to revert this!",
+		icon: 'success',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Yes, create it!'
+	  }).then((result) => {
+		if (result.isConfirmed) {
+			var data = $("#form-submit").serialize();
+		$.ajax({
+			type: "POST",
+			url: link + "/tambahData",
+			data: data,
+			success: function (response) {
+				console.log(response);
+				Swal.fire(
+					'Created!',
+					'Your file has been created.',
+					'success'
+				  )
+				  $('#form-submit')[0].reset();
+				$("#tbl_data").DataTable().ajax.reload(null, false);
+				getSidebar();
+			},
+		});
+		}
+	  })
+	 });
 
 // var oldXHR = window.XMLHttpRequest;
 

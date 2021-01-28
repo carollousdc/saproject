@@ -35,7 +35,7 @@
                 </div>
                 <div class="card-body">
                     <table id="tbl_data" class="table table-bordered table-hover">
-                        <?= $tableHeader ?>
+                        <?= (isset($tableHeader)) ? $tableHeader : "" ?>
                     </table>
                 </div>
             </div>

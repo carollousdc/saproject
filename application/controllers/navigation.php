@@ -6,6 +6,9 @@ class Navigation extends saTemplate
     public function __construct()
     {
         parent::__construct(pathinfo(__FILE__, PATHINFO_FILENAME));
+        $this->change_tipe_manual['tipe'] = ['Master Menu', 'Root', 'Single'];
+        $this->change_data = ['root'];
+        $this->to_change['root'] = 'navigation';
     }
 
     public function index()

@@ -18,7 +18,7 @@
                             </div>
                             <div class="col-sm-2">
                                 <p>Nama Link:</p>
-                                <input type="text" class="form-control" name="link" required="required"><br>
+                                <input type="text" class="form-control" name="link"><br>
                             </div>
                             <div class="col-sm-2">
                                 <p>JS/CSS:</p>
@@ -38,9 +38,8 @@
                                 <input type="text" class="form-control" name="icon" required="required"><br>
                             </div>
                             <div class="col-sm-12">
-                                <button type="button" class="btn btn-success" id="tombol-simpan">Simpan</button></button>
+                                <button type="submit" class="btn btn-success" id="tombol-simpan">Simpan</button>
                             </div>
-
                         </div>
                         </form>
                     </div>

@@ -7,6 +7,7 @@ class Produk extends saTemplate
     {
         parent::__construct(pathinfo(__FILE__, PATHINFO_FILENAME));
         $this->load->model('promo_sql', 'promo');
+        $this->validate = ['s_price', 'b_price'];
         $this->change_name = ['b_price' => "Harga Beli", 's_price' => "Harga Jual"];
         $this->change_option = ['promo'];
     }

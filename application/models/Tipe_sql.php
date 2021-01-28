@@ -11,7 +11,7 @@ class Tipe_sql extends MY_model
         $this->tabel_prefix = "TP";
         $this->column_order = array(null, 'name'); //field yang ada di table user
         $this->column_search = array('name'); //field yang diizin untuk pencarian 
-        $this->order = array('name' => 'asc'); // default order
+        $this->order = array('role' => 'asc'); // default order
     }
 
     public function get_field_data()

@@ -6,7 +6,8 @@ class Bahan extends saTemplate
     public function __construct()
     {
         parent::__construct(pathinfo(__FILE__, PATHINFO_FILENAME));
-        $this->validate = ['expired'];
+        $this->validate = ['expired', 'b_price'];
+        $this->change_format_data['expired'] = "hari";
         $this->change_name = ['b_price' => "Harga Beli"];
     }
 }//End  

@@ -58,6 +58,14 @@
             <div class="card card-danger">
                 <div class="card-header">
                     <h3 class="card-title">Daftar Menu Bakmi Pelita 2 Bima</h3>
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 200px;">
+                            <input type="text" id="searchbox" name="searchbox" class="form-control float-right" placeholder="Search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -105,8 +113,11 @@
                                         <div class="col-12">
                                             <div id="pesan"></div>
                                         </div>
-                                        <div class="col-10">
+                                        <div class="col-6">
                                             <input type="text" class="form-control" id="customer" name="customer" placeholder="Customer name">
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="date" class="form-control" id="buy_date" name="buy_date">
                                         </div>
                                         <div class="col-2">
                                             <input type="number" class="form-control" id="no_order" name="no_order" readonly>

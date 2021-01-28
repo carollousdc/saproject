@@ -58,6 +58,9 @@
   <script src="asset/admin/select2/js/select2.full.min.js"></script>
   <script src="asset/admin/chart.js/chart.min.js"></script>
   <script src="asset/js/myJs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+  <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 
   </html>
 

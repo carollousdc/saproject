@@ -23,8 +23,11 @@ class saTemplate extends CI_Controller
         $this->change_option = [];
         $this->change_data = [];
         $this->change_tipe = [];
+        $this->change_tipe_manual = [];
         $this->disabled = [];
         $this->to_change = [];
+        $this->select_change = [];
+        $this->change_format_data = [];
         if (!empty($path)) {
             $this->main = $path;
             $this->load->model('navigation_sql', "navigation");
@@ -64,17 +67,19 @@ class saTemplate extends CI_Controller
                     }
                     $this->data['input_form'] .= '</div>';
                 } else {
-                    $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count] . '">';
-                    if (empty($this->data[$value])) $this->data[$value] = $this->tipe->gets(['role' => $this->main])[0]->id;
-                    $this->data['input_form'] .= ucwords($value_change) . ':' . $this->tipe->option($value, $this->data[$value], ['role' => $this->main], 1);
-                    $this->data['input_form'] .= '</div>';
+                    if (!in_array($value, $this->disabled)) {
+                        $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count] . '">';
+                        if (empty($this->data[$value])) $this->data[$value] = $this->tipe->gets(['role' => $this->main])[0]->id;
+                        $this->data['input_form'] .= ucwords($value_change) . ':' . $this->tipe->option($value, $this->data[$value], ['role' => $this->main], 1);
+                        $this->data['input_form'] .= '</div>';
+                    }
                 }
             }
 
             foreach ($this->master->get_validate_data() as $key => $value) {
-                $this->data['edit_form'] .= '<div class="form-group">';
                 $this->data['edit_form'] .= '<input type="hidden" name="id_edit">';
                 foreach ($this->master->get_field_type() as $k) {
+                    $this->data['edit_form'] .= '<div class="form-group">';
                     if (isset($this->change_name[$value])) $value = $this->change_name[$value];
                     if ($k->name == $value && $k->type == 'int') $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="number" class="form-control" name="' . $value . '_edit" required="required"><br>';
                     if ($k->name == $value && $k->type == 'varchar') $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="text" class="form-control" name="' . $value . '_edit" required="required"><br>';
@@ -101,20 +106,27 @@ class saTemplate extends CI_Controller
             $row = array();
             $row[] = $no;
             foreach ($this->master->get_validate_data() as $k => $val) {
-                if (in_array($val, $this->change_data)) {
-                    $x =  $this->to_change[$val];
-                    $row[] = $this->$x->get(['id' => $value->$val])->name;
+                if (!empty($this->change_tipe_manual[$val])) {
+                    $row[] = $this->change_tipe_manual[$val][$value->$val];
                 } else {
-                    if (in_array($val, $this->change_option)) {
+                    if (in_array($val, $this->change_data)) {
                         if (!empty($value->$val)) {
-                            $row[] = $this->$val->get(['id' => $value->$val])->name;
+                            $x =  $this->to_change[$val];
+                            (empty($this->select_change[$val])) ? $y = 'id' : $y = $this->select_change[$val];
+                            $row[] = $this->$x->get([$y => $value->$val])->name;
                         } else $row[] = "-";
                     } else {
-                        if (is_numeric($value->$val)) {
-                            if (in_array($val, $this->validate)) {
-                                $row[] = $value->$val . " hari";
-                            } else $row[] = number_format($value->$val, 2, ",", ".");
-                        } else  $row[] = $value->$val;
+                        if (in_array($val, $this->change_option)) {
+                            if (!empty($value->$val)) {
+                                $row[] = $this->$val->get(['id' => $value->$val])->name;
+                            } else $row[] = "-";
+                        } else {
+                            if (is_numeric($value->$val) && in_array($val, $this->validate)) {
+                                if (!empty($this->change_format_data[$val])) {
+                                    $row[] = $value->$val . " " . $this->change_format_data[$val];
+                                } else $row[] = number_format($value->$val, 2, ",", ".");
+                            } else  $row[] = $value->$val;
+                        }
                     }
                 }
             }
@@ -211,7 +223,7 @@ class saTemplate extends CI_Controller
     {
         $data = $this->navigation_sql->get(['link' => $this->main]);
         $getTitle = $this->navigation_sql->get(['second_id' => $this->main]);
-        if (!empty($data)) {
+        if (!empty($data->root)) {
             $getRootLink = $this->navigation_sql->get(['id' => $data->root])->second_id;
         } else $getRootLink = $this->navigation_sql->get(['link' => $this->main])->second_id;
 

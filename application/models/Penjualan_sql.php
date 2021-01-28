@@ -7,7 +7,7 @@ class Penjualan_sql extends CI_Model
 
     var $column_order = array(null, 'customer', 'no_order'); //field yang ada di table user
     var $column_search = array('customer', 'no_order'); //field yang diizin untuk pencarian 
-    var $order = array('id' => 'asc'); // default order 
+    var $order = array('customer' => 'asc'); // default order 
 
     public function add($data)
     {

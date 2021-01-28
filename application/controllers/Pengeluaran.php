@@ -8,6 +8,8 @@ class Pengeluaran extends saTemplate
         parent::__construct(pathinfo(__FILE__, PATHINFO_FILENAME));
         $this->validate = ['periode'];
         $this->change_option = ['tipe'];
+        $this->validate = ['periode', 'biaya'];
+        $this->change_format_data['periode'] = "hari";
     }
 
     public function index()

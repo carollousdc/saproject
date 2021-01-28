@@ -41,7 +41,7 @@ if (isset($_SESSION['id'])) $dataUser = $this->user_sql->getUser($_SESSION['id']
   <?php if (isset($cssFile)) echo $cssFile; ?>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini sidebar-collapse">
   <div class="wrapper">
 
     <!-- Navbar -->

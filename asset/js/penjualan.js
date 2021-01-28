@@ -177,7 +177,7 @@ $(function () {
 			responsive: true,
 			serverSide: true,
 			autoWidth: false,
-			sScrollY: "445",
+			sScrollY: "380",
 			sScrollX: "100%",
 			bSort: true,
 			iDisplayLength: 10,
