@@ -36,21 +36,6 @@ function sumtotal() {
 };
 
 $(function () {
-	$("#tbl_data").on("click", ".btn_hapus", function () {
-		var id = $(this).attr("data-id");
-		var status = confirm("Yakin ingin menghapus?");
-		if (status) {
-			$.ajax({
-				url: link + "/hapusDataDetail",
-				type: "POST",
-				data: { id: id },
-				success: function (response) {
-					$("#tbl_data").DataTable().ajax.reload(null, false);
-				},
-			});
-		}
-	});
-
 	$("#pembayaran").click(function (event) {
 		var data = $("#form-submit").serialize();
 		if($("#customer").val() == ""){

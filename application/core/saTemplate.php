@@ -51,12 +51,11 @@ class saTemplate extends CI_Controller
         if (!empty($this->master)) {
             $this->data['tableHeader'] = $this->master->getHeaderName();
             $count = count($this->master->get_validate_data());
-            if ($count == 5) $count = ($count + 1);
             $value_change = array();
             foreach ($this->master->get_validate_data() as $key => $value) {
                 (isset($this->change_name[$value])) ? $value_change = $this->change_name[$value] : $value_change = $value;
                 if (!in_array($value, $this->change_data)) {
-                    $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count - count($this->disabled)] . '">';
+                    $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count] . '">';
                     if (empty($this->data[$value])) $this->data[$value] = 0;
                     foreach ($this->master->get_field_type() as $k) {
                         if (!in_array($value, $this->change_data)) {

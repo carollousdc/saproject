@@ -154,7 +154,8 @@ $("#searchbox").on("keyup search input paste cut", function() {
 				  )
 				  $('#form-submit')[0].reset();
 				$("#tbl_data").DataTable().ajax.reload(null, false);
-				getSidebar();
+        getSidebar();
+        $("#modalform").modal('hide');
 			},
 		});
 		}
@@ -184,6 +185,36 @@ $("#searchbox").on("keyup search input paste cut", function() {
               'success'
               )
             $("#tbl_data").DataTable().ajax.reload(null, false);
+          },
+        });
+      }
+      })
+  });
+
+  $("#tbl_data").on("click", ".btn_hapus_detail", function () {
+    var id = $(this).attr("data-id");
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: link + "/hapusDataDetail",
+          type: "POST",
+          data: { id: id },
+          success: function (response) {
+            Swal.fire(
+              'Deleted!',
+              'The item has been deleted.',
+              'success'
+              )
+            $("#tbl_data").DataTable().ajax.reload(null, false);
+            if(sumtotal()) sumtotal();
           },
         });
       }

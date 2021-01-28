@@ -9,6 +9,7 @@ class Pengeluaran_sql extends MY_model
         $CI = &get_instance();
         $this->tabel = "pengeluaran";
         $this->tabel_prefix = "pen";
+        $this->changeHeaderName = ['buy_date' => "Tanggal Pengeluaran"];
     }
 
     public function sumFixCost($where = "")

@@ -35,16 +35,16 @@ class Purchase extends saTemplate
         $no = $_POST['start'];
         foreach ($list as $key => $value) {
             $no++;
-            ($value->diskon == 0) ? $diskon = 0 : $diskon = (($this->bahan->get($value->bahan_baku)->b_price * $value->diskon) / 100);
+            ($value->diskon == 0) ? $diskon = 0 : $diskon = (($this->bahan->get(['id' => $value->bahan_baku])->b_price * $value->diskon) / 100);
             if (empty($value->keterangan)) $value->keterangan = "-";
             $row = array();
             $row[] = $no;
-            $row[] = $this->bahan->get($value->bahan_baku)->name;
+            $row[] = $this->bahan->get(['id' => $value->bahan_baku])->name;
             $row[] = $value->qty;
             $row[] = $value->diskon . "%";
             $row[] = $value->keterangan;
-            $row[] = number_format(($value->qty * ($this->bahan->get($value->bahan_baku)->b_price - $diskon)), 2, ",", ".");
-            $row[] = '<span><button style="margin-left: 5px;" data-id="' . $value->bahan_baku . '" class="btn btn-danger btn_hapus">Hapus</button></span>';
+            $row[] = number_format(($value->qty * ($this->bahan->get(['id' => $value->bahan_baku])->b_price - $diskon)), 2, ",", ".");
+            $row[] = '<span><button type="button" style="margin-left: 5px;" data-id="' . $value->bahan_baku . '" class="btn btn-danger btn_hapus_detail">Hapus</button></span>';
             $data[] = $row;
         }
 
