@@ -21,6 +21,10 @@ class Kasir extends saTemplate
             $this->data['listProduk'] .= '<button type="button" id="makanan" class="btn btn-block ' . $tipe[$value->tipe] . ' form-control rounded heightP makanans" value="' . $value->id . '" data-toggle="modal" data-target="#modal-xl">' . $value->name . '</button>';
             $this->data['listProduk'] .= '<hr /></div>';
         }
+
+        if (empty($this->data['metode'])) $this->data['metode'] = 1;
+        $this->data['optionMetode'] = $this->master->option('metode', $this->data['metode'], [], 1, ['Tunai', 'Transfer']);
+
         parent::index();
     }
 
@@ -31,16 +35,18 @@ class Kasir extends saTemplate
         $row = [];
         $no = $_POST['start'];
         foreach ($list as $key => $value) {
+            ($value->pangsit) ? $pangsit =  " + " . $value->pangsit . " Pangsit" : $pangsit = "";
+            ($value->baso) ? $baso = " + " . $value->baso . " Baso" : $baso = "";
             $no++;
             ($value->p_promo) ? $promo = $this->promo->get(['id' => $value->p_promo])->name : $promo = "-";
             $row = array();
             $row[] = $no;
-            $row[] = $this->produk->get(['id' => $value->barang])->name;
+            $row[] = $this->produk->get(['id' => $value->barang])->name . $pangsit .  $baso;
             $row[] = $value->qty;
             $row[] = $value->diskon . "%";
             $row[] = $promo;
             $row[] = number_format($value->price, 2, ",", ".");
-            $row[] = '<span><button style="margin-left: 5px;" data-id="' . $value->barang . '" class="btn btn-danger btn_hapus">Hapus</button></span>';
+            $row[] = '<span><button type="button" style="margin-left: 5px;" data-id="' . $value->barang . '" class="btn btn-danger btn_hapus_detail">Hapus</button></span>';
             $data[] = $row;
         }
 
@@ -72,9 +78,7 @@ class Kasir extends saTemplate
         if ($data_arr['diskon'] < 1) {
             $diskon = 0;
         } else $diskon = ((($this->produk->get(['id' => $data_arr['barang']])->s_price * $data_arr['qty']) * $data_arr['diskon']) / 100);
-
         $check = $this->master->get(['id' => $data['id']]);
-
         if (!empty($data_arr['p_promo'])) {
             $x =  $this->promo->get(['id' => $data_arr['p_promo']]);
             $data_arr['price'] = (($data_arr['qty'] * $x->p_price) - $diskon);
@@ -84,13 +88,13 @@ class Kasir extends saTemplate
 
         if (empty($check)) {
             if ($this->master->add($data)) {
-                $this->kasir_detail->add(['kasir' => $data['id'], 'qty' => $data_arr['qty'], 'barang' => $data_arr['barang'], 'diskon' => $data_arr['diskon'], 'p_promo' => $data_arr['p_promo'], 'price' => $data_arr['price']]);
+                $this->kasir_detail->add(['kasir' => $data['id'], 'qty' => $data_arr['qty'], 'barang' => $data_arr['barang'], 'diskon' => $data_arr['diskon'], 'p_promo' => $data_arr['p_promo'], 'price' => $data_arr['price'], 'baso' => $data_arr['baso'], 'pangsit' => $data_arr['pangsit'], 'paperbowl' => $data_arr['paperbowl'], 'buy_date' => $data_arr['buy_date']]);
             }
         } else {
             if ($this->kasir_detail->get(['kasir' => $data['id'], 'barang' => $data_arr['barang'], 'diskon' => $data_arr['diskon'], 'p_promo' => $data_arr['p_promo']])) {
                 $this->kasir_detail->edit(['qty' => $data_arr['qty']], ['kasir' => $data['id'], 'barang' => $data_arr['barang'], 'diskon' => $data_arr['diskon'], 'p_promo' => $data_arr['p_promo']]);
             } else {
-                $this->kasir_detail->add(['kasir' => $data['id'], 'qty' => $data_arr['qty'], 'barang' => $data_arr['barang'], 'diskon' => $data_arr['diskon'], 'p_promo' => $data_arr['p_promo'], 'price' => $data_arr['price']]);
+                $this->kasir_detail->add(['kasir' => $data['id'], 'qty' => $data_arr['qty'], 'barang' => $data_arr['barang'], 'diskon' => $data_arr['diskon'], 'p_promo' => $data_arr['p_promo'], 'price' => $data_arr['price'], 'baso' => $data_arr['baso'], 'pangsit' => $data_arr['pangsit'], 'paperbowl' => $data_arr['paperbowl'], 'buy_date' => $data_arr['buy_date']]);
             }
         }
     }
@@ -111,11 +115,10 @@ class Kasir extends saTemplate
             }
         }
 
-
         $data['id'] = $this->master->getLastId(0, "order");
 
         if ($this->master->edit($data, ['id' => 'temporary'])) {
-            if ($this->kasir_detail->edit(['kasir' => $data['id']], ['kasir' => 'temporary'])) {
+            if ($this->kasir_detail->edit(['kasir' => $data['id'], 'buy_date' => $data['buy_date']], ['kasir' => 'temporary'])) {
                 $flag = true;
             }
         }

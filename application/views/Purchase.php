@@ -107,7 +107,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12 col-sm-5">
+                            <div class="col-lg-12 col-sm-12">
                                 <div class="card">
                                     <!-- /.card-header -->
                                     <div class="card-body">
@@ -121,7 +121,7 @@
                                             </div>
                                             <div class="col-12">
                                                 <hr />
-                                                <button type="submit" id="pembayaran" class="btn btn-block btn-danger form-control rounded">Pembayaran</button>
+                                                <button type="button" id="pembayaran" class="btn btn-block btn-danger form-control rounded">Pembayaran</button>
                                             </div>
                                         </div>
                                     </div>

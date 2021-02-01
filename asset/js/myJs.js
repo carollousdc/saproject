@@ -65,11 +65,8 @@ function getLink() {
   });
 };
 
-
 $(function () {
-  //Initialize Select2 Elements
   $(".select2-purple").select2();
-  //Initialize Select2 Elements
   $(".select2bs4").select2({
     theme: "bootstrap4",
   });
@@ -82,7 +79,6 @@ function myFunction() {
   filter = input.value.toUpperCase();
   table = document.getElementById("viewModal");
   tr = table.getElementsByTagName("tr");
-
   // Loop through all table rows, and hide those who don't match the search query
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName("td")[1];
@@ -96,7 +92,6 @@ function myFunction() {
     }
   }
 }
-
 
 function showMsg(msg, tipe_msg) {
   var msg_tipe = "alert-danger";
@@ -156,11 +151,60 @@ $("#searchbox").on("keyup search input paste cut", function() {
 				$("#tbl_data").DataTable().ajax.reload(null, false);
         getSidebar();
         $("#modalform").modal('hide');
+        if(sumtotal()) sumtotal();
 			},
 		});
 		}
 	  })
    });
+
+   $("#reset").click(function () {
+		$.ajax({
+			type: "POST",
+			url: link + "/reset",
+			success: function (response) {
+        $("#tbl_data").DataTable().ajax.reload(null, false);
+        $('#sumtotal').val("");
+        $('#customer').val("");
+        $('#cash').val("");
+			},
+		});
+	});
+   
+	$("#pembayaran").click(function () {
+		var data = $("#form-submit").serialize();
+		if($("#customer").val() == ""){
+			showMsg("Wajib masukkan nama customer.");
+			$("html, body").animate({ scrollTop: 0 }, "slow");
+		} else {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, create it!'
+        }).then((result) => {
+        if (result.isConfirmed) {
+          $('#sumtotal').val("");
+          $('#tax').val("");
+          var data = $("#form-submit").serialize();
+          $.ajax({
+            type: "POST",
+            url: link + "/updateData",
+            data: data,
+            success: function (response) {
+              $('#cash').val("");
+              $('#customer').val("");
+              $("#tbl_data").DataTable().ajax.reload(null, false);
+              $('#form-submit').reset();
+            },
+          });
+        }
+        })
+		}
+	});
    
    $("#tbl_data").on("click", ".btn_hapus", function () {
     var id = $(this).attr("data-id");
@@ -214,14 +258,12 @@ $("#searchbox").on("keyup search input paste cut", function() {
               'success'
               )
             $("#tbl_data").DataTable().ajax.reload(null, false);
-            if(sumtotal()) sumtotal();
+            $('#sumtotal').val("");
           },
         });
       }
       })
   });
-  
- 
 
 // var oldXHR = window.XMLHttpRequest;
 

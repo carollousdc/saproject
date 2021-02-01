@@ -10,7 +10,7 @@
                     <form id="form-submit" method="post" action="produk/tambahData">
                         <div class="row margin">
                             <div class="col-sm-3">
-                                Nama Supplier: <input type="text" class="form-control" name="name" id="name" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
+                                Nama Supplier: <input type="text" class="form-control" name="name" id="name" required="required"><br>
                             </div>
                             <div class="col-sm-3">
                                 Alamat: <input type="text" class="form-control" name="alamat" id="alamat" required="required"><br>
@@ -22,7 +22,7 @@
                                 Kode: <input type="text" class="form-control" name="kode" id="kode" required="required"><br>
                             </div>
                             <div class="col-sm-12">
-                                <button type="button" class="btn btn-success" id="tombol-simpan">Simpan</button>
+                                <button type="submit" class="btn btn-success" id="tombol-simpan">Simpan</button>
                             </div>
                         </div>
                     </form>

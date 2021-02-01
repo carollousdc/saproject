@@ -25,7 +25,7 @@
                 Lastname: <input type="text" class="form-control" name="lastname" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
               </div>
               <div class="col-sm-12">
-                <button type="button" class="btn btn-success" id="tombol-simpan">Simpan</button>
+                <button type="submit" class="btn btn-success" id="tombol-simpan">Simpan</button>
               </div>
             </div>
           </form>

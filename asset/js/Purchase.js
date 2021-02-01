@@ -43,14 +43,28 @@ $(function () {
 			showMsg("Wajib masukkan nama customer.");
 			$("html, body").animate({ scrollTop: 0 }, "slow");
 		} else {
-		$.ajax({
-			type: "POST",
-			url: link + "/updateData",
-			data: data,
-			success: function (response) {
-				$("#tbl_data").DataTable().ajax.reload(null, false);
-			},
-		});
+			Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to revert this!",
+				icon: 'success',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, create it!'
+			  }).then((result) => {
+				if (result.isConfirmed) {
+					var data = $("#form-submit").serialize();
+					$.ajax({
+						type: "POST",
+						url: link + "/updateData",
+						data: data,
+						success: function (response) {
+							$("#tbl_data").DataTable().ajax.reload(null, false);
+							sumtotal();
+						},
+					});
+				}
+			  })
 		}
 	});
 

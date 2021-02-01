@@ -56,7 +56,7 @@ $(function () {
 			responsive: true,
 			serverSide: true,
 			autoWidth: false,
-			sScrollY: "300",
+			sScrollY: "600",
 			sScrollX: "100%",
 			bSort: true,
 			iDisplayLength: 10,

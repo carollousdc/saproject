@@ -10,12 +10,6 @@ class Dashboard extends saTemplate
 
 	public function index()
 	{
-
-		$this->data['countUser'] = count($this->user_sql->gets());
-		$count = $this->pendapatan_sql->sumIncome()->hasil;
-		$sumAmmount = number_format($count, 2, ",", ".");
-		$this->data['pendapatan'] = $sumAmmount;
-
 		parent::index();
 	}
 }//End

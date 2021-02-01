@@ -4,7 +4,7 @@ $(function () {
 	getPromo(0);
 });
 
-$('input[type="checkbox"]').click(function(){
+$('#customSwitch1').click(function(){
 	if($(this).prop("checked") == true){
 		getPromo(1);
 		$("#diskon").prop("readonly", true);
@@ -16,6 +16,15 @@ $('input[type="checkbox"]').click(function(){
 	}
 });
 
+$('#customSwitch2').click(function(){
+	if($(this).prop("checked") == true){
+		$("#paperbowl").val(1);
+	}
+	else if($(this).prop("checked") == false){
+		$("#paperbowl").val(0);
+	}
+});
+
 $(".makanans").click(function() {
 	$("#barang").val($(this).val());
 	$("#btn-submit").click(function () {
@@ -24,13 +33,19 @@ $(".makanans").click(function() {
 		data += "&customer=" + $("#customer").val();
 		data += "&diskon=" + $("#diskon").val();
 		data += "&p_promo=" + $("#p_promo").val();
+		data += "&baso=" + $("#baso").val();
+		data += "&pangsit=" + $("#pangsit").val();
+		data += "&paperbowl=" + $("#paperbowl").val();
+		data += "&buy_date=" + $("#buy_date").val();
 		$.ajax({
 			url: link + "/addProduct",
 			type: "POST",
 			data: data,
 			success: function (response) {
-				console.log(response);
 				$('#qty').val("");
+				$("#diskon").val("");
+				$("#baso").val("");
+				$("#pangsit").val("");
 				$("#tbl_data").DataTable().ajax.reload(null, false);
 				sumtotal();
 			},
@@ -65,94 +80,6 @@ function sumtotal() {
         }
     });
 };
-
-$(function () {
-	$("#tbl_data").on("click", ".btn_hapus", function () {
-		var id = $(this).attr("data-id");
-		var status = confirm("Yakin ingin menghapus?");
-		if (status) {
-			$.ajax({
-				url: link + "/hapusDataDetail",
-				type: "POST",
-				data: { id: id },
-				success: function (response) {
-					$("#tbl_data").DataTable().ajax.reload(null, false);
-				},
-			});
-		}
-	});
-
-	$("#pembayaran").click(function (event) {
-		var data = $("#form-submit").serialize();
-		if($("#customer").val() == ""){
-			event.preventDefault();
-			showMsg("Wajib masukkan nama customer.");
-			$("html, body").animate({ scrollTop: 0 }, "slow");
-		} else {
-		$.ajax({
-			type: "POST",
-			url: link + "/updateData",
-			data: data,
-			success: function (response) {
-				$("#tbl_data").DataTable().ajax.reload(null, false);
-			},
-		});
-		}
-	});
-
-	$("#reset").click(function () {
-		$.ajax({
-			type: "POST",
-			url: link + "/reset",
-			success: function (response) {
-				$("#tbl_data").DataTable().ajax.reload(null, false);
-			},
-		});
-	});
-
-	$("#tbl_data").on("click", ".btn_edit", function () {
-		var id = $(this).attr("data-id");
-		$.ajax({
-			url: link + "/ambilDataById",
-			type: "POST",
-			data: { id: id },
-			dataType: "json",
-			success: function (response) {
-				$("#editModal").modal("show");
-				$('input[name="id_edit"]').val(response[0].id);
-				$('input[name="email_edit"]').val(response[0].email);
-				$('input[name="firstname_edit"]').val(response[0].firstname);
-				$('input[name="lastname_edit"]').val(response[0].lastname);
-				$("#tbl_data").DataTable().ajax.reload(null, false);
-			},
-		});
-	});
-
-	$("#btn_update_data").on("click", function () {
-		var id = $('input[name="id_edit"]').val();
-		var email = $('input[name="email_edit"]').val();
-		var firstname = $('input[name="firstname_edit"]').val();
-		var lastname = $('input[name="lastname_edit"]').val();
-		$.ajax({
-			url: link + "/perbaruiData",
-			type: "POST",
-			data: {
-				id: id,
-				email: email,
-				firstname: firstname,
-				lastname: lastname,
-			},
-			success: function (response) {
-				$('input[name="id_edit"]').val("");
-				$('input[name="email_edit"]').val("");
-				$('input[name="firstname_edit"]').val("");
-				$('input[name="lastname_edit"]').val("");
-				$("#editModal").modal("hide");
-				$("#tbl_data").DataTable().ajax.reload(null, false);
-			},
-		});
-	});
-});
 
 var table;
 $(function () {

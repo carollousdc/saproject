@@ -1,32 +1,38 @@
 <section class="content">
     <!-- Small boxes (Stat box) -->
     <div class="row">
-        <div class="col-12">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Tambah <?= $menu->name ?></h3>
-                </div>
-                <div class="card-body">
-                    <form id="form-submit" method="post" action="produk/tambahData">
-                        <div class="row margin">
-                            <?= ($input_form) ?>
-                            <div class="col-sm-4">
-                                Promo:
-                                <?= ($optionPromo) ?>
-                            </div>
-                            <div class="col-sm-12">
-                                <button type="submit" class="btn btn-success" id="tombol-simpan">Simpan</button>
+        <div class="col-4">
+            <form id="form-submit" method="post" action="produk/tambahData">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Tambah <?= $menu->name ?></h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="setheight" style="height: 100%;">
+                            <div class="row margin">
+                                <?= ($input_form) ?>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="far fa-plus-square"></i></span>
+                                    </div>
+                                    <?= ($optionPromo) ?>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="far fa-plus-square"></i></span>
+                                    </div>
+                                    <?= ($optionBahan) ?>
+                                </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-success" id="tombol-simpan">Simpan</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
-    </div>
-    <!-- /.row (main row) -->
-
-    <div class="row">
-        <div class="col-12">
+        <div class="col-8">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Data Produk</h3>
@@ -39,15 +45,12 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.card-header -->
                 <div class="card-body">
                     <table id="tbl_data" class="table table-bordered table-hover">
                         <?= $tableHeader ?>
                     </table>
                 </div>
-                <!-- /.card-body -->
             </div>
-            <!-- /.card -->
         </div>
         <div id="editModal" class="modal fade" role="dialog">
             <div class="modal-dialog">

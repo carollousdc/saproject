@@ -67,7 +67,7 @@ $(function () {
 			responsive: true,
 			serverSide: true,
 			autoWidth: false,
-			sScrollY: "300",
+			sScrollY: "600",
 			sScrollX: "100%",
 			bSort: false,
 			iDisplayLength: 10,
@@ -84,7 +84,12 @@ $(function () {
 				},
 				{
 					targets: -1,
-					width: "200",
+					width: "120",
+					orderable: false,
+				},
+				{
+					targets: 0,
+					width: "120",
 					orderable: false,
 				},
 			],

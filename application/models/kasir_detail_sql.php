@@ -14,14 +14,6 @@ class Kasir_detail_sql extends MY_model
         $this->order = array('barang' => 'asc'); // default order 
     }
 
-    // public function sumTotal($id = "")
-    // {
-    //     (!empty($id)) ? $id = $id  : $id = "temporary";
-    //     $this->db->select('sum(m.qty * IFNULL(q.p_price,(p.s_price-(p.s_price * (NULLIF(m.diskon, 100)/100))))) as qty ');
-    //     $this->db->join('(SELECT id, s_price FROM produk) as p', 'p.id = m.barang', 'left');
-    //     $this->db->join('(SELECT id, p_price FROM promo) as q', 'q.id = m.p_promo', 'left');
-    //     return $this->get(['m.kasir' => $id]);
-    // }
     public function sumModalTotal($where = "")
     {
         $this->db->select('sum(m.qty * p.b_price) as qty');
@@ -46,5 +38,37 @@ class Kasir_detail_sql extends MY_model
         if (!empty($where)) {
             return $this->get($where);
         } else return $this->get(['m.kasir !=' => 'temporary', 'm.p_promo' => 0]);
+    }
+
+    public function getSumQty($bahan, $where = "")
+    {
+        $this->db->select('p.bahan');
+        $this->db->select('IFNULL(sum(m.qty), 0) as qty');
+        $this->db->select('IFNULL(sum(m.baso), 0) as baso');
+        $this->db->select('IFNULL(sum(m.pangsit), 0) as pangsit');
+        $this->db->join('(SELECT id, name, bahan FROM produk where bahan ="' . $bahan . '") as p', 'p.id = m.barang', 'left');
+        $this->db->group_by('p.bahan');
+        if (!empty($where)) {
+            return $this->get($where);
+        } else return $this->get(['m.kasir !=' => 'temporary']);
+    }
+
+    public function getCoreQty($bahan = "",  $where = "")
+    {
+        $this->db->select('sum(m.qty) as qty');
+        if (!empty($bahan)) {
+            $this->db->where('barang in', '(select id from produk where bahan = "' . $bahan . '")', false);
+        } else $this->db->where('barang', $bahan);
+        if (!empty($where)) {
+            return $this->get($where);
+        } else return $this->get(['m.kasir !=' => 'temporary']);
+    }
+
+    public function getSumTopping($topping, $where = "")
+    {
+        $this->db->select('IFNULL(sum(m.' . $topping . '), 0) as qty');
+        if (!empty($where)) {
+            return $this->get($where);
+        } else return $this->get(['m.kasir !=' => 'temporary']);
     }
 } //End

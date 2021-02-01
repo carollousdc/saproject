@@ -16,9 +16,9 @@ class Purchase extends saTemplate
         $getsBahan = $this->bahan->gets([], 'tipe');
         $this->data['listProduk'] = "";
         foreach ($getsBahan as $key => $value) {
-
+            (!empty($tipe[$value->tipe])) ? $btnProduct = $tipe[$value->tipe] : $btnProduct = "Belum Punya Kategori";
             $this->data['listProduk'] .= '<div class="col-lg-4 col-sm-12">';
-            $this->data['listProduk'] .= '<button type="button" id="makanan" class="btn btn-block ' . $tipe[$value->tipe] . ' form-control rounded heightP makanans" value="' . $value->id . '" data-toggle="modal" data-target="#modal-xl">' . $value->name . '</button>';
+            $this->data['listProduk'] .= '<button type="button" id="makanan" class="btn btn-block ' . $btnProduct . ' form-control rounded heightP makanans" value="' . $value->id . '" data-toggle="modal" data-target="#modal-xl">' . $value->name . '</button>';
             $this->data['listProduk'] .= '<hr /></div>';
         }
 
@@ -61,23 +61,36 @@ class Purchase extends saTemplate
         $data = [];
         $data_arr = [];
         $data['id'] =  'temporary';
-        $data_arr['purchase'] =  'temporary';
+        $data_arr['id'] =  'temporary';
         foreach ($this->input->post() as $key => $value) {
-            if (!empty($value) && in_array($key, $this->master->get_field_name())) $data[$key] = $value;
-            if (!empty($value) && in_array($key, $this->purchase_detail->get_field_name())) $data_arr[$key] = $value;
+            if (!is_array($value)) {
+                if (!empty($value) && in_array($key, $this->master->get_field_name()))  $data[$key] = $value;
+                if (in_array($key, $this->purchase_detail->get_field_name())) {
+                    if (!empty($value)) {
+                        $data_arr[$key] = $value;
+                    } else $data_arr[$key] = 0;
+                }
+            }
         }
 
-        $check = $this->master->get(['id' => $data['id']]);
-        $check_arr = $this->purchase_detail->get(['purchase' => $data['id'], 'bahan_baku' => $data_arr['bahan_baku']]);
+        if ($data_arr['diskon'] < 1) {
+            $diskon = 0;
+        } else $diskon = ((($this->bahan->get(['id' => $data_arr['bahan_baku']])->b_price * $data_arr['qty']) * $data_arr['diskon']) / 100);
 
-        if ($check) {
-            if ($check_arr) $data_arr['qty'] = $check_arr->qty += $data_arr['qty'];
-            if ($this->purchase_detail->delete(['purchase' => $data['id'], 'bahan_baku' => $data_arr['bahan_baku']])) {
-                $this->purchase_detail->add($data_arr);
+        $check = $this->master->get(['id' => $data['id']]);
+
+        $data_arr['price'] = (($data_arr['qty'] * $this->bahan->get(['id' => $data_arr['bahan_baku']])->b_price) - $diskon);
+
+
+        if (empty($check)) {
+            if ($this->master->add($data)) {
+                $this->purchase_detail->add(['purchase' => $data['id'], 'qty' => $data_arr['qty'], 'bahan_baku' => $data_arr['bahan_baku'], 'diskon' => $data_arr['diskon'], 'price' => $data_arr['price']]);
             }
         } else {
-            if ($this->master->add($data)) {
-                $this->purchase_detail->add($data_arr);
+            if ($this->purchase_detail->get(['purchase' => $data['id'], 'bahan_baku' => $data_arr['bahan_baku'], 'diskon' => $data_arr['diskon']])) {
+                $this->purchase_detail->edit(['qty' => $data_arr['qty']], ['purchase' => $data['id'], 'bahan_baku' => $data_arr['bahan_baku'], 'diskon' => $data_arr['diskon']]);
+            } else {
+                $this->purchase_detail->add(['purchase' => $data['id'], 'qty' => $data_arr['qty'], 'bahan_baku' => $data_arr['bahan_baku'], 'diskon' => $data_arr['diskon'], 'price' => $data_arr['price']]);
             }
         }
     }
@@ -102,7 +115,7 @@ class Purchase extends saTemplate
         $data['id'] = $this->master->getLastId(0, "bb");
 
         if ($this->master->edit($data, ['id' => 'temporary'])) {
-            if ($this->purchase_detail->edit(['purchase' => $data['id']], ['purchase' => 'temporary'])) {
+            if ($this->purchase_detail->edit(['purchase' => $data['id'], 'buy_date' => $data['buy_date']], ['purchase' => 'temporary'])) {
                 $flag = true;
             }
         }

@@ -55,14 +55,16 @@ class saTemplate extends CI_Controller
             foreach ($this->master->get_validate_data() as $key => $value) {
                 (isset($this->change_name[$value])) ? $value_change = $this->change_name[$value] : $value_change = $value;
                 if (!in_array($value, $this->change_data)) {
-                    $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count] . '">';
+                    $this->data['input_form'] .= '<div class="input-group mb-3">
+                    <div class="input-group-prepend">';
+                    $this->data['input_form'] .= '<span class="input-group-text"><i class="fas fa-check"></i></span></div>';
                     if (empty($this->data[$value])) $this->data[$value] = 0;
                     foreach ($this->master->get_field_type() as $k) {
                         if (!in_array($value, $this->change_data)) {
-                            if ($k->name == $value && $k->type == 'int') $this->data['input_form'] .= ucwords($value_change) . ':<input type="number" class="form-control" name="' . $value . '" required="required"><br>';
-                            if ($k->name == $value && $k->type == 'varchar') $this->data['input_form'] .= ucwords($value_change) . ':<input type="text" class="form-control" name="' . $value . '" required="required"><br>';
-                            if ($k->name == $value && $k->type == 'text') $this->data['input_form'] .= ucwords($value_change) . ':<textarea class="form-control" name="' . $value . '" required="required"></textarea><br>';
-                            if ($k->name == $value && $k->type == 'date') $this->data['input_form'] .= ucwords($value_change) . ':<input type="date" class="form-control" name="' . $value . '" required="required"><br>';
+                            if ($k->name == $value && $k->type == 'int') $this->data['input_form'] .= '<input type="number" class="form-control" name="' . $value . '" required="required" placeholder="' . ucwords($value_change) . '">';
+                            if ($k->name == $value && $k->type == 'varchar') $this->data['input_form'] .= '<input type="text" class="form-control" name="' . $value . '" required="required" placeholder="' . ucwords($value_change) . '">';
+                            if ($k->name == $value && $k->type == 'text') $this->data['input_form'] .= '<textarea class="form-control" name="' . $value . '" required="required" placeholder="' . ucwords($value_change) . '"></textarea>';
+                            if ($k->name == $value && $k->type == 'date') $this->data['input_form'] .= '<input type="date" class="form-control" name="' . $value . '" required="required" placeholder="' . ucwords($value_change) . '">';
                         }
                     }
                     $this->data['input_form'] .= '</div>';

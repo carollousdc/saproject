@@ -30,7 +30,7 @@
                 <i class="fas fa-bullhorn"></i> Notifications
             </a>
         </div>
-        <div class="col-lg-7 col-sm-5">
+        <div class="col-lg-5 col-sm-5">
             <hr />
             <div class="card card-danger">
                 <div class="card-header">
@@ -53,7 +53,7 @@
         <form id="dataproduk" method="post">
             <input type='hidden' id="barang" name="barang">
         </form>
-        <div class="col-lg-5 col-sm-7">
+        <div class="col-lg-7 col-sm-7">
             <hr />
             <div class="card card-danger">
                 <div class="card-header">
@@ -80,7 +80,15 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-12">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch2">
+                                                <label class="custom-control-label" for="customSwitch2">Papperbowl</label>
+                                            </div>
+                                            <input type="hidden" id="paperbowl" name="paperbowl">
+                                            <hr />
+                                        </div>
+                                        <div class="col-8">
                                             <div class="input-group mb-3">
                                                 <input type="number" id="qty" name="qty" class="form-control" placeholder="Jumlah produk">
                                                 <div class="input-group-append">
@@ -88,9 +96,25 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-4">
+                                            <div class="input-group mb-3">
+                                                <input type="number" id="diskon" name="diskon" class="form-control" placeholder="Diskon">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i class="fas fa-percentage"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-6">
                                             <div class="input-group mb-3">
-                                                <input type="number" id="diskon" name="diskon" class="form-control" placeholder="Diskon produk">
+                                                <input type="number" id="pangsit" name="pangsit" class="form-control" placeholder="Jumlah pangsit">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i class="fas fa-percentage"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="input-group mb-3">
+                                                <input type="number" id="baso" name="baso" class="form-control" placeholder="Jumlah baso">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text"><i class="fas fa-percentage"></i></span>
                                                 </div>
@@ -146,7 +170,11 @@
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-lg-5 col-sm-5">
+                                            <div class="col-lg-3 col-sm-3">
+                                                <label>Metode Pembayaran:</label>
+                                                <?= $optionMetode ?>
+                                            </div>
+                                            <div class="col-lg-3 col-sm-5">
                                                 <label>Cash:</label>
                                                 <input type='number' name="cash" id="cash" class="form-control">
                                             </div>
@@ -154,17 +182,17 @@
                                                 <label>Tax:</label>
                                                 <input type='number' id="tax" name="tax" class="form-control">
                                             </div>
-                                            <div class="col-lg-4 col-sm-4">
+                                            <div class="col-lg-3 col-sm-4">
                                                 <label>Grand Total:</label>
                                                 <input type='text' id="sumtotal" class="form-control" readonly>
                                             </div>
                                             <div class="col-6">
                                                 <hr />
-                                                <button type="submit" id="reset" class="btn btn-block btn-warning form-control rounded">Reset</button>
+                                                <button type="button" id="reset" class="btn btn-block btn-warning form-control rounded">Reset</button>
                                             </div>
                                             <div class="col-6">
                                                 <hr />
-                                                <button type="submit" id="pembayaran" class="btn btn-block btn-danger form-control rounded">Pembayaran</button>
+                                                <button type="button" id="pembayaran" class="btn btn-block btn-danger form-control rounded">Pembayaran</button>
                                             </div>
                                         </div>
                                     </div>

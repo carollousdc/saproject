@@ -10,6 +10,9 @@ class Pengeluaran_sql extends MY_model
         $this->tabel = "pengeluaran";
         $this->tabel_prefix = "pen";
         $this->changeHeaderName = ['buy_date' => "Tanggal Pengeluaran"];
+        $this->column_order = array(null, 'buy_date', 'name', 'biaya', 'tipe', 'keterangan'); //field yang ada di table user
+        $this->column_search = array('buy_date', 'name'); //field yang diizin untuk pencarian 
+        $this->order = array('buy_date' => 'DESC');
     }
 
     public function sumFixCost($where = "")
