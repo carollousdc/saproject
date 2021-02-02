@@ -70,9 +70,11 @@ class saTemplate extends CI_Controller
                     $this->data['input_form'] .= '</div>';
                 } else {
                     if (!in_array($value, $this->disabled)) {
-                        $this->data['input_form'] .= '<div class="col-sm-' . $validateColNum[$count] . '">';
+                        $this->data['input_form'] .= '<div class="input-group mb-3">
+                        <div class="input-group-prepend">';
+                        $this->data['input_form'] .= '<span class="input-group-text"><i class="fas fa-check"></i></span></div>';
                         if (empty($this->data[$value])) $this->data[$value] = $this->tipe->gets(['role' => $this->main])[0]->id;
-                        $this->data['input_form'] .= ucwords($value_change) . ':' . $this->tipe->option($value, $this->data[$value], ['role' => $this->main], 1);
+                        $this->data['input_form'] .= $this->tipe->option($value, $this->data[$value], ['role' => $this->main], 1);
                         $this->data['input_form'] .= '</div>';
                     }
                 }
