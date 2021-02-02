@@ -1,5 +1,5 @@
 <?php
-if (count($this->session->userdata('email')) > 0) {
+if (!empty($this->session->userdata('email'))) {
   header("Location: dashboard");
 }
 ?>

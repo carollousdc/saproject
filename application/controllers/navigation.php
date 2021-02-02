@@ -19,8 +19,6 @@ class Navigation extends saTemplate
         parent::index();
     }
 
-
-
     function ambilData()
     {
         $data = [];
@@ -46,8 +44,6 @@ class Navigation extends saTemplate
                 $result['optionList'] .= "<option value='" . $value->id . "'>" . $value->name . "<option>";
             }
         } else $result['optionList'] .= "<option value='0'>No Root<option>";
-
-
         $output = array(
             "data" => $result,
         );
