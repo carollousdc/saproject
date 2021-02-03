@@ -133,12 +133,13 @@ class MY_model extends CI_Model
             // periksa password-nya
             $isPasswordTrue = password_verify($password, $user->password);
             // periksa role-nya
-            $isAdmin = $user->role = 1;
+            // $isAdmin = $user->role = 1;
             // jika password benar dan dia admin
-            if ($isPasswordTrue && $isAdmin) {
+            if ($isPasswordTrue) {
                 // login sukses yay!
                 $this->session->set_userdata('email', $user->email);
                 $this->session->set_userdata('id', $user->id);
+                $this->session->set_userdata('role', $user->role);
                 return true;
             }
         }

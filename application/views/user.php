@@ -16,13 +16,16 @@
                 E-mail: <input type="email" class="form-control" name="email"><br>
               </div>
               <div class="col-sm-2">
-                Password: <input type="password" class="form-control" name="password" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
+                Password: <input type="password" class="form-control" name="password" required="required"><br>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-2">
                 Firstname: <input type="text" class="form-control" name="firstname" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-2">
                 Lastname: <input type="text" class="form-control" name="lastname" required="required" pattern="[A-Za-z0-9]{1,20}"><br>
+              </div>
+              <div class="col-sm-2">
+                Role: <?= $optionRole ?><br>
               </div>
               <div class="col-sm-12">
                 <button type="submit" class="btn btn-success" id="tombol-simpan">Simpan</button>

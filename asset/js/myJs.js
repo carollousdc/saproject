@@ -265,6 +265,40 @@ $("#searchbox").on("keyup search input paste cut", function() {
       })
   });
 
+function showDataTable() {
+  var table;
+	$(document).ready(function () {
+		var link = $(location).attr("pathname");
+		//datatables
+		table = $("#tbl_data").DataTable({
+			responsive: true,
+			serverSide: true,
+			autoWidth: false,
+			sScrollY: "500",
+			sScrollX: "100%",
+			bSort: true,
+			iDisplayLength: 10,
+			bLengthChange: false,
+			order: [],
+			ajax: {
+				url: link + "/get_data",
+				type: "POST",
+			},
+			columnDefs: [
+				{
+					targets: [0, 3],
+					orderable: false,
+				},
+				{
+					targets: -1,
+					autoWidth: true,
+					orderable: false,
+				},
+			],
+		});
+	});
+};
+
 // var oldXHR = window.XMLHttpRequest;
 
 // function newXHR() {

@@ -2,12 +2,13 @@
     <!-- Small boxes (Stat box) -->
     <div class="row">
         <div class="col-12">
-            <div class="card card-primary">
+            <div class="card card-primary collapsed-card">
                 <div class="card-header">
                     <h3 class="card-title">Tambah <?= ($menu->name) ?></h3>
+                    <button type="button" class="btn btn-tool float-right" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
                 </div>
                 <div class="card-body">
-                    <form id="form-submit" method="post" action="produk/tambahData">
+                    <form id="form-submit" method="post">
                         <div class="row margin">
                             <?= ($input_form) ?>
                             <div class="col-sm-12">
@@ -25,7 +26,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Data <?= ($menu->name) ?></h3>
                     <div class="card-tools">
-                        <div class="input-group input-group-sm" style="width: 200px;">
+                        <div class="input-group input-group-sm" style="width: 350px;">
                             <input type="text" id="searchbox" name="searchbox" class="form-control float-right" placeholder="Search">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>

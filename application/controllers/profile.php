@@ -10,7 +10,7 @@ class Profile extends saTemplate
 
     public function index()
     {
-        $linkImage = $this->user_sql->get($_SESSION['id'], 1);
+        $linkImage = $this->user_sql->get(['id' => $_SESSION['id']]);
         $this->data['showImage'] = "<img src='file/" . $linkImage->picture . "'>";
         parent::index();
     }
@@ -31,7 +31,7 @@ class Profile extends saTemplate
                 if ($ukuran < 1044070) {
                     move_uploaded_file($file_tmp, 'file/' . $nama);
                     $user['picture'] = $nama;
-                    $query = $this->user_sql->edit($user, $_SESSION['id']);
+                    $query = $this->user_sql->edit($user, ['id' => $_SESSION['id']]);
                     if ($query) {
                         echo 'FILE BERHASIL DI UPLOAD';
                         header("Location: ../profile");
@@ -46,7 +46,7 @@ class Profile extends saTemplate
             }
         }
 
-        $dataPicture = $this->user_sql->get($_SESSION['email'])->picture;
+        $dataPicture = $this->user_sql->get(['email' => $_SESSION['email']])->picture;
         $this->data['showImage'] = "";
         $this->data['showImage'] .= "<img src=../file/" . $dataPicture . ">";
     }

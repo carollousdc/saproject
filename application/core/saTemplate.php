@@ -92,10 +92,20 @@ class saTemplate extends CI_Controller
             }
         }
 
+        $noPermission = ['dashboard'];
+        if (!empty($this->main)) {
+            if ($this->navigation->get(['second_id' => $this->main]) && !in_array($this->main, $noPermission)) {
+                $validateMenu = $this->navigation->get(['second_id' => $this->main])->id;
+                if ($this->permission->get(['role' => $_SESSION['role'], 'menu' => $validateMenu]) || $_SESSION['role'] == 1) {
+                    $getMenu = $this->main;
+                } else $getMenu = "error404";
+            } else $getMenu = $this->main;
+        } else $getMenu = $this->main;
+
         $this->data['cssFile'] .= '<link rel="stylesheet" href="' . base_url() . 'asset/css/' . $this->main . '.min.css">';
         $this->data['jsFile'] .= '<script src="' . base_url() . 'asset/js/' . $this->main . '.min.js"></script>';
         $this->load->view('header', $this->data);
-        $this->load->view($this->main, $this->data);
+        $this->load->view($getMenu, $this->data);
         $this->load->view('footer', $this->data);
     }
 

@@ -9,8 +9,11 @@
                 <div class="card-body">
                     <form id="form-submit" method="post" action="produk/tambahData">
                         <div class="row margin">
-                            <?= ($input_form) ?>
+                            <div class="col-sm-6">
+                                <?= $optionRole ?>
+                            </div>
                             <div class="col-sm-12">
+                                <br />
                                 <button type="submit" class="btn btn-success" id="tombol-simpan">Simpan</button>
                             </div>
                         </div>
