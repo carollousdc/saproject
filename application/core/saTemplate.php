@@ -281,22 +281,24 @@ class saTemplate extends CI_Controller
         $mainTipe = $this->navigation_sql->getsTipe();
         if (!empty($mainTipe)) {
             foreach ($mainTipe as $key => $value) {
-                $this->data['sidebar'] .= '<li class="nav-item has-treeview" id="' . $value->second_id . '1">';
-                $this->data['sidebar'] .= '<a href="#" class="nav-link" id="' . $value->second_id . '">';
-                $this->data['sidebar'] .= '<i class="' . $value->icon . '"></i>';
-                $this->data['sidebar'] .= '<p>' . $value->name . '<i class="right fas fa-angle-left"></i></p></a>';
-                $this->data['sidebar'] .= '<ul class="nav nav-treeview" id="nav">';
-                $secondTipe = $this->navigation->getsSecondTipe($value->id);
-                if (!empty($secondTipe)) {
-                    foreach ($secondTipe as $k => $val) {
-                        $this->data['sidebar'] .= '<li class="nav-item">';
-                        $this->data['sidebar'] .= '<a href="' . $val->link . '" id="' . $val->second_id . '" class="nav-link">';
-                        $this->data['sidebar'] .= '<i class="' . $val->icon . '"></i>';
-                        $this->data['sidebar'] .= '<p>' . $val->name . '</p>';
-                        $this->data['sidebar'] .= '</a></li>';
-                    }
-                    $this->data['sidebar'] .= '</ul></li>';
-                } else $this->data['sidebar'] .= '</ul></li>';
+                if ($this->permission->get(['role' => $_SESSION['role'], 'menu' => $value->id]) || $_SESSION['role'] == 1) {
+                    $this->data['sidebar'] .= '<li class="nav-item has-treeview" id="' . $value->second_id . '1">';
+                    $this->data['sidebar'] .= '<a href="#" class="nav-link" id="' . $value->second_id . '">';
+                    $this->data['sidebar'] .= '<i class="' . $value->icon . '"></i>';
+                    $this->data['sidebar'] .= '<p>' . $value->name . '<i class="right fas fa-angle-left"></i></p></a>';
+                    $this->data['sidebar'] .= '<ul class="nav nav-treeview" id="nav">';
+                    $secondTipe = $this->navigation->getsSecondTipe($value->id);
+                    if (!empty($secondTipe)) {
+                        foreach ($secondTipe as $k => $val) {
+                            $this->data['sidebar'] .= '<li class="nav-item">';
+                            $this->data['sidebar'] .= '<a href="' . $val->link . '" id="' . $val->second_id . '" class="nav-link">';
+                            $this->data['sidebar'] .= '<i class="' . $val->icon . '"></i>';
+                            $this->data['sidebar'] .= '<p>' . $val->name . '</p>';
+                            $this->data['sidebar'] .= '</a></li>';
+                        }
+                        $this->data['sidebar'] .= '</ul></li>';
+                    } else $this->data['sidebar'] .= '</ul></li>';
+                }
             }
         }
         $this->data['sidebar'] .= '<br />';
