@@ -1,11 +1,12 @@
 <section class="content">
     <!-- Small boxes (Stat box) -->
     <div class="row">
-        <div class="col-4">
+        <div class="col-12">
             <form id="form-submit" method="post" action="produk/tambahData">
-                <div class="card card-primary">
+                <div class="card card-primary collapsed-card">
                     <div class="card-header">
-                        <h3 class="card-title">Tambah <?= $menu->name ?></h3>
+                        <h3 class="card-title">Tambah <?= ($menu->name) ?></h3>
+                        <button type="button" class="btn btn-tool float-right" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
                     </div>
                     <div class="card-body">
                         <div id="setheight" style="height: 100%;">
@@ -32,7 +33,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-8">
+        <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Data Produk</h3>
@@ -53,15 +54,15 @@
             </div>
         </div>
         <div id="editModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Edit Data</h4>
-                        <button type="button" class="close" data-dismiss="modal">×</button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
+            <form id="form-edit" method="post">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit Data</h4>
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <div class="modal-body">
                             <?= ($edit_form) ?>
                             <div class="form-group">
                                 <label for="promo">Promo</label>
@@ -69,14 +70,14 @@
                                     <?= ($option_edit) ?>
                                 </select>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="btn_update_data">Update</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="btn_update_data">Update</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </section>

@@ -215,6 +215,13 @@ class MY_model extends CI_Model
         return $res;
     }
 
+    public function get_validate_data_edit()
+    {
+        $allfield = $this->db->list_fields($this->tabel);
+        $res = array_reverse(array_reverse(array_diff($allfield, ["creator", "create", "create_date", "status"])));
+        return $res;
+    }
+
     public function getHeaderName()
     {
         $TableHeader = "<thead><tr>";

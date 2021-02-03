@@ -120,10 +120,6 @@ function showMsg(msg, tipe_msg) {
   $("#pesan").append($msg_view);
 }
 
-$("#searchbox").on("keyup search input paste cut", function() {
-	table.search(this.value).draw();
- }); 
-
  $('#form-submit').on('submit', function(e){
 	e.preventDefault();
 	Swal.fire({
@@ -265,6 +261,53 @@ $("#searchbox").on("keyup search input paste cut", function() {
       })
   });
 
+  $("#tbl_data").on("click", ".btn_edit", function () {
+		var id = $(this).attr("data-id");
+		$.ajax({
+			url: link + "/ambilDataById",
+			type: "POST",
+			data: { id: id },
+			dataType: "json",
+			success: function (response) {
+				$("#editModal").modal("show");
+				for(var i = 0; i <= response.key_count; i++){
+					dummyval = response.key[i];
+					if(dummyval == 'promo'){
+						$('#promo_edit').val(response.data[dummyval]).trigger('change');
+					} else $('input[name="'+response.key[i]+'_edit"]').val(response.data[dummyval]);
+				}
+				$("#tbl_data").DataTable().ajax.reload(null, false);
+			},
+		});
+  });
+  
+  $("#btn_update_data").on("click", function () {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'success',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, update it!'
+      }).then((result) => {
+      if (result.isConfirmed) {
+        var data = $("#form-edit").serialize();
+        $.ajax({
+          url: link + "/perbaruiData",
+          type: "POST",
+          data: data,
+          success: function (response) {
+            console.log(response);
+            $('#form-edit')[0].reset();
+            $("#editModal").modal("hide");
+            $("#tbl_data").DataTable().ajax.reload(null, false);
+          },
+        });
+      }
+      })
+	});
+
 function showDataTable() {
   var table;
 	$(document).ready(function () {
@@ -296,7 +339,10 @@ function showDataTable() {
 				},
 			],
 		});
-	});
+  });
+$("#searchbox").on("keyup search input paste cut", function() {
+	table.search(this.value).draw();
+ }); 
 };
 
 // var oldXHR = window.XMLHttpRequest;

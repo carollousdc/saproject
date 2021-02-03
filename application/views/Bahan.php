@@ -2,9 +2,10 @@
     <!-- Small boxes (Stat box) -->
     <div class="row">
         <div class="col-12">
-            <div class="card card-primary">
+            <div class="card card-primary collapsed-card">
                 <div class="card-header">
                     <h3 class="card-title">Tambah <?= ($menu->name) ?></h3>
+                    <button type="button" class="btn btn-tool float-right" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
                 </div>
                 <div class="card-body">
                     <form id="form-submit" method="post" action="produk/tambahData">
@@ -41,23 +42,23 @@
             </div>
         </div>
         <div id="editModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Edit Data</h4>
-                        <button type="button" class="close" data-dismiss="modal">×</button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
+            <form id="form-edit" method="post">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit Data</h4>
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <div class="modal-body">
                             <?= $edit_form ?>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="btn_update_data">Update</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="btn_update_data">Update</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </section>

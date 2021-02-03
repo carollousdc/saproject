@@ -80,14 +80,25 @@ class saTemplate extends CI_Controller
                 }
             }
 
+            $this->data['edit_form'] .= '<input type="hidden" id="id_edit" name="id_edit">';
             foreach ($this->master->get_validate_data() as $key => $value) {
-                $this->data['edit_form'] .= '<input type="hidden" name="id_edit">';
                 foreach ($this->master->get_field_type() as $k) {
-                    $this->data['edit_form'] .= '<div class="form-group">';
                     if (isset($this->change_name[$value])) $value = $this->change_name[$value];
-                    if ($k->name == $value && $k->type == 'int') $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="number" class="form-control" name="' . $value . '_edit" required="required"><br>';
-                    if ($k->name == $value && $k->type == 'varchar') $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="text" class="form-control" name="' . $value . '_edit" required="required"><br>';
-                    $this->data['edit_form'] .= '</div>';
+                    if (!in_array($value, $this->change_data)) {
+                        $this->data['edit_form'] .= '<div class="form-group">';
+                        if ($k->name == $value && $k->type == 'int') $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="number" class="form-control" name="' . $value . '_edit" required="required">';
+                        if ($k->name == $value && $k->type == 'varchar') $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="text" class="form-control" name="' . $value . '_edit" required="required">';
+                        if ($k->name == $value && $k->type == 'date') $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label><input type="date" class="form-control" name="' . $value . '_edit" required="required">';
+                        if ($k->name == $value && $k->type == 'text') $this->data['input_form'] .= '<textarea class="form-control" name="' . $value . '" required="required" placeholder="' . ucwords($value_change) . '"></textarea>';
+                        $this->data['edit_form'] .= '</div>';
+                    } else {
+                        if ($k->name == $value && !in_array($value, $this->disabled)) {
+                            $this->data['edit_form'] .= '<label for="name">' . ucwords($value) . '</label>' . '<div class="form-group">';
+                            $this->tipe->gets(['role' => $this->main])[0]->id;
+                            $this->data['edit_form'] .= $this->tipe->option($value, $this->data[$value], ['role' => $this->main], 1);
+                            $this->data['edit_form'] .= '</div>';
+                        }
+                    }
                 }
             }
         }
@@ -187,7 +198,7 @@ class saTemplate extends CI_Controller
     {
         $id = $this->input->post('id');
         $data = $this->master->get(['id' => $id]);
-        $count_data = $this->master->get_validate_data();
+        $count_data = $this->master->get_validate_data_edit();
 
         foreach ($count_data as $key => $val) {
             $data_key[$key] = $val;
@@ -210,13 +221,14 @@ class saTemplate extends CI_Controller
 
     function perbaruiData()
     {
+        $data = [];
         foreach ($this->input->post() as $key => $value) {
-            $data[$key] = $value;
-            $data['creator'] = $_SESSION['id'];
+            $key = explode("_edit", $key);
+            $data[$key[0]] = $value;
         }
 
-        $data = $this->master->updateData($data['id'], $data);
-        echo json_encode($data);
+        $result = $this->master->updateData($data['id'], $data);
+        echo json_encode($result);
     }
 
     function reset()
