@@ -13,7 +13,7 @@
                                 Nama Promo: <input type="text" class="form-control" name="name" id="name" required="required"><br>
                             </div>
                             <div class="col-sm-2">
-                                Harga: <input type="number" class="form-control" name="p_price" id="p_price" required="required"><br>
+                                Harga: <input type="number" class="form-control" name="p_price" id="p_price"><br>
                             </div>
                             <div class="col-sm-2">
                                 Diskon: <input type="number" class="form-control" name="p_diskon" id="p_diskon"><br>

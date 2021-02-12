@@ -1,48 +1,38 @@
 <section class="content">
     <div class="row">
-        <div class="col-lg-1 col-sm-2">
-            <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                <label class="custom-control-label" for="customSwitch1">Aktifkan Promo</label>
-            </div>
-        </div>
-        <div class="col-lg-3 col-sm-4">
-            <select id="p_promo" name="p_promo" class="form-control select2bs4"></select>
-        </div>
-        <div class="col-lg-3 col-sm-1">
-            <!-- <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Search for products.."> -->
-        </div>
-        <div class="col-lg-5 col-sm-5">
-            <a class="btn btn-app">
-                <span class="badge bg-warning">3</span>
-                <i class="fas fa-bullhorn"></i> Notifications
-            </a>
-            <a class="btn btn-app">
-                <span class="badge bg-warning">3</span>
-                <i class="fas fa-bullhorn"></i> Notifications
-            </a>
-            <a class="btn btn-app">
-                <span class="badge bg-warning">3</span>
-                <i class="fas fa-bullhorn"></i> Notifications
-            </a>
-            <a class="btn btn-app">
-                <span class="badge bg-warning">3</span>
-                <i class="fas fa-bullhorn"></i> Notifications
-            </a>
-        </div>
-        <div class="col-lg-5 col-sm-5">
-            <hr />
-            <div class="card card-danger">
-                <div class="card-header">
-                    <h3 class="card-title">Daftar Menu Bakmi Pelita 2 Bima</h3>
+        <div class="col-lg-5">
+            <div class="row">
+                <div class="col-lg-4 col-md-8 col-sm-12">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                        <label class="custom-control-label" for="customSwitch1">Aktifkan Promo</label>
+                    </div>
                 </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div id="viewModal" class="card-body table-responsive" style="height: 660px;">
-                                <div class="row" id="viewModals">
-                                    <?= ($listProduk) ?>
+                <div class="col-lg-8 col-md-8 col-sm-10">
+                    <select id="p_promo" name="p_promo" class="form-control select2bs4"></select>
+                </div>
+                <div class="col-lg-12 col-sm-12">
+                    <hr />
+                    <div class="card card-danger">
+                        <div class="card-header">
+                            <h3 class="card-title">Daftar Menu</h3>
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 200px;">
+                                    <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Search for products..">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div id="viewModal" class="card-body table-responsive" style="height: 660px;">
+                                        <div class="row" id="viewModals">
+                                            <?= ($listProduk) ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -53,11 +43,11 @@
         <form id="dataproduk" method="post">
             <input type='hidden' id="barang" name="barang">
         </form>
+        <!-- <div class="col-lg-7 col-sm-7"> -->
         <div class="col-lg-7 col-sm-7">
-            <hr />
             <div class="card card-danger">
                 <div class="card-header">
-                    <h3 class="card-title">Daftar Menu Bakmi Pelita 2 Bima</h3>
+                    <h3 class="card-title">Daftar Pesanan</h3>
                     <div class="card-tools">
                         <div class="input-group input-group-sm" style="width: 200px;">
                             <input type="text" id="searchbox" name="searchbox" class="form-control float-right" placeholder="Search">
@@ -67,7 +57,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.card-header -->
                 <div class="card-body">
                     <div class="modal fade" id="modal-xl" style="display: none;" aria-hidden="true">
                         <div class="modal-dialog modal-md">
@@ -127,7 +116,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /.modal-dialog -->
                     </div>
                     <form id="form-submit" method="post" action="">
                         <div class="row">
@@ -167,11 +155,10 @@
                             </div>
                             <div class="col-lg-12 col-sm-12">
                                 <div class="card">
-                                    <!-- /.card-header -->
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-lg-3 col-sm-3">
-                                                <label>Metode Pembayaran:</label>
+                                            <div class="col-lg-3 col-sm-5">
+                                                <label>Payment:</label>
                                                 <?= $optionMetode ?>
                                             </div>
                                             <div class="col-lg-3 col-sm-5">

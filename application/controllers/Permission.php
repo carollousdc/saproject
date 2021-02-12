@@ -6,8 +6,18 @@ class Permission extends saTemplate
     public function __construct()
     {
         parent::__construct(pathinfo(__FILE__, PATHINFO_FILENAME));
+        $this->change_data = ['role', 'menu'];
+        $this->disabled = ['role', 'menu'];
+        $this->to_change['menu'] = 'navigation';
+        $this->change_tipe_manual['action'] = ['create', 'read', 'update', 'delete'];
 
         if (empty($this->data['role'])) $this->data['role'] = $this->role->gets()[0]->id;
         $this->data['optionRole'] = $this->role->option("role", $this->data['role'], [], 1);
+        if (empty($this->data['menu'])) $this->data['menu'] = $this->navigation->gets(['tipe !=' => 0])[0]->id;
+        $this->data['optionMenu'] = $this->navigation->option("menu", $this->data['menu'], ['tipe !=' => 0], 1);
+
+
+        if (empty($this->data['roleTable'])) $this->data['roleTable'] = $this->role->gets()[0]->id;
+        $this->data['optionRoleTable'] = $this->role->option("roleTable", $this->data['roleTable'], [], 1);
     }
 }//End  

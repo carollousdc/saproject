@@ -1,28 +1,28 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 require APPPATH . '/core/saTemplate.php';
-class Produk extends saTemplate
+class Goproduk extends saTemplate
 {
     public function __construct()
     {
         parent::__construct(pathinfo(__FILE__, PATHINFO_FILENAME));
-        $this->load->model('bahan_sql', 'bahan');
         $this->validate = ['s_price', 'b_price'];
         $this->change_name = ['b_price' => "Harga Beli", 's_price' => "Harga Jual"];
-        $this->change_option = ['gopromo', 'bahan'];
-        $this->change_data = ['gopromo', 'bahan'];
-        $this->disabled = ['gopromo', 'bahan'];
+        $this->change_data = ['bahan', 'promo'];
+        $this->disabled = ['bahan', 'promo'];
     }
 
     public function index()
     {
-        if (empty($this->data['promo'])) $this->data['promo'] = $this->promo->gets()[0]->id;
-        $this->data['optionPromo'] = $this->promo->option("promo", $this->data['promo']);
+        if ($this->gopromo->gets()) {
+            if (empty($this->data['promo'])) $this->data['promo'] = $this->gopromo->gets()[0]->id;
+            $this->data['optionPromo'] = $this->gopromo->option("promo", $this->data['promo']);
+        } else $this->data['optionPromo'] = "";
 
         if (empty($this->data['bahan'])) $this->data['bahan'] = $this->bahan->gets()[0]->id;
         $this->data['optionBahan'] = $this->bahan->option("bahan", $this->data['bahan']);
 
-        $getsPromo = $this->gopromo->gets();
+        $getsPromo = $this->promo->gets();
 
         $this->data['option_edit'] = "";
         $this->data['option_edit'] .= "<option value='0'>Disabled</option>";

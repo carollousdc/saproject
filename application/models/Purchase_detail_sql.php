@@ -71,7 +71,7 @@ class Purchase_detail_sql extends MY_model
 
     public function sumMasterTotal($where = "")
     {
-        $this->db->select('sum(m.qty * (p.b_price-(p.b_price * (NULLIF(m.diskon, 100)/100)))) as qty ');
+        $this->db->select('sum(m.qty * (p.b_price-(p.b_price * (NULLIF(m.diskon, 100)/100)))) as qty');
         $this->db->join('(SELECT id, b_price FROM bahan) as p', 'p.id = m.bahan_baku', 'left');
         if (!empty($where)) {
             return $this->get($where);

@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('user_sql', 'navigation_sql', 'pendapatan_sql', 'supplier_sql', 'promo_sql' => 'promo', 'tipe_sql' => 'tipe', 'role_sql' => 'role', 'permission_sql' => 'permission');
+$autoload['model'] = array('user_sql', 'navigation_sql', 'pendapatan_sql', 'supplier_sql', 'promo_sql' => 'promo', 'tipe_sql' => 'tipe', 'role_sql' => 'role', 'permission_sql' => 'permission', 'gopromo_sql' => 'gopromo', 'bahan_sql' => 'bahan');

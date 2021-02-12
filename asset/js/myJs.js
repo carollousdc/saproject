@@ -325,7 +325,7 @@ function showDataTable() {
 			order: [],
 			ajax: {
 				url: link + "/get_data",
-				type: "POST",
+        type: "POST",
 			},
 			columnDefs: [
 				{

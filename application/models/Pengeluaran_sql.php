@@ -20,6 +20,14 @@ class Pengeluaran_sql extends MY_model
         $this->db->select('sum(biaya) as biaya');
         if (!empty($where)) {
             return $this->get($where);
-        } else return $this->get(['m.tipe =' => 0]);
+        } else return $this->get(['m.tipe =' => 'Tip00001']);
+    }
+
+    public function sumFixCostOther($where = "")
+    {
+        $this->db->select('sum(biaya) as biaya');
+        if (!empty($where)) {
+            return $this->get($where);
+        } else return $this->get(['m.tipe !=' => 'Tip00001']);
     }
 } //End

@@ -63,15 +63,15 @@ class Penjualan extends saTemplate
         $x_value = $n_value - ($this->pengeluaran->sumFixCost()->biaya / 30);
         ($n_value > $this->pengeluaran->sumFixCost()->biaya) ? $getCondition = '<span class="description-percentage text-success"><i class="fas fa-caret-up"></i> ' : $getCondition = '<span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> ';
         $data['percentageGoalDay'] = $getCondition . number_format((abs(round(($x_value), 2))), 2, ",", ".") . '</span>';
-        $data['bepPie'] = $this->pengeluaran->sumFixCost()->biaya;
         $data['grossIncomePie'] = $this->kasir_detail->sumMasterTotal()->qty;
         $data['balancePie'] = $this->kasir_detail->sumModalTotal()->qty;
-        $data['spendingPie'] = $this->purchase_detail->sumMasterTotal()->qty + $data['balancePie'];
-        $data['netIncomePie'] = ($data['grossIncomePie'] - $data['spendingPie']);
+        $data['spendingPie'] = $this->pengeluaran->sumFixCostOther()->biaya;
+        $data['netIncomePie'] = ($data['grossIncomePie'] - $data['balancePie']);
+        $data['bepPie'] = $this->pengeluaran->sumFixCost()->biaya + $data['spendingPie'];
 
         $data['bep'] = "Rp. " . number_format(($this->pengeluaran->sumFixCost()->biaya / 30), 2, ",", ".");
         $data['grossIncome'] = "Rp. " . number_format($this->kasir_detail->sumMasterTotal(['date(buy_date)' => date('Y-m-d')])->qty, 2, ",", ".");
-        $data['spending'] = number_format($this->purchase_detail->sumMasterTotal(['date(buy_date)' => date('Y-m-d')])->qty + $this->kasir_detail->sumModalTotal(['date(buy_date)' => date('Y-m-d')])->qty, 2, ",", ".");
+        $data['spending'] = number_format($this->pengeluaran->sumFixCostOther(['date(buy_date)' => date('Y-m-d')])->biaya, 2, ",", ".");
         $data['netIncome'] = "Rp. " . number_format($this->kasir_detail->sumMasterTotal(['date(buy_date)' => date('Y-m-d')])->qty - ($this->purchase_detail->sumMasterTotal(['date(buy_date)' => date('Y-m-d')])->qty + $this->kasir_detail->sumModalTotal(['date(buy_date)' => date('Y-m-d')])->qty), 2, ",", ".");
         $data['balance'] = "Rp. " . number_format($this->kasir_detail->sumModalTotal(['date(buy_date)' => date('Y-m-d')])->qty + $data['spendingPie'], 2, ",", ".");
         $output = array(
